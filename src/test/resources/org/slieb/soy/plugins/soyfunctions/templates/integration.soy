@@ -1,0 +1,51 @@
+{namespace templates.integration}
+
+
+/**
+ * @param IntString
+ */
+{template .parseInt}
+  {parseInt($IntString) * 10}
+{/template}
+
+/**
+ * @param FloatString
+ */
+{template .parseFloat}
+  {parseFloat($FloatString) * 0.1}
+{/template}
+
+/**
+ * @param Object
+ */
+{template .toJson}
+  {toJson($Object)}
+{/template}
+
+/**
+ * @param JsonString
+ */
+{template .fromJson}
+  {parseJson($JsonString)['Property'] + 1}
+{/template}
+
+/**
+ * @param String
+ */
+{template .toLowerCase}
+  {toLowerCase($String)}
+{/template}
+
+/**
+ * @param String
+ */
+{template .toUpperCase}
+  {toUpperCase($String)}
+{/template}
+
+/**
+ * @param String
+ */
+{template .strLength}
+  {strLength($String)}
+{/template}
