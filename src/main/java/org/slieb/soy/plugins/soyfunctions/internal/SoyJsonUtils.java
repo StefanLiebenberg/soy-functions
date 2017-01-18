@@ -2,6 +2,7 @@ package org.slieb.soy.plugins.soyfunctions.internal;
 
 import com.google.common.html.types.SafeScripts;
 import com.google.gson.Gson;
+import com.google.inject.Inject;
 import com.google.template.soy.data.*;
 import com.google.template.soy.data.restricted.BooleanData;
 import com.google.template.soy.data.restricted.NumberData;
@@ -13,6 +14,20 @@ import static com.google.template.soy.data.SanitizedContent.ContentKind.JS;
 import static com.google.template.soy.data.SanitizedContents.fromSafeScript;
 
 public class SoyJsonUtils {
+
+    private final Gson gson;
+
+    private final SoyValueHelper helper;
+
+    @Inject
+    public SoyJsonUtils(final Gson gson, final SoyValueHelper helper) {
+        this.gson = gson;
+        this.helper = helper;
+    }
+
+    public SanitizedContent toJsonFromObject(Object object) {
+        return toJson(helper.convert(object).resolve());
+    }
 
     public SanitizedContent toJson(SoyValue soyValue) {
 
@@ -34,9 +49,8 @@ public class SoyJsonUtils {
         return fromSafeScript(SafeScripts.fromConstant("null"));
     }
 
-    @SuppressWarnings("unchecked")
     public SoyValue fromString(String jsonString) {
-        return SoyData.createFromExistingData(new Gson().fromJson(jsonString, Object.class));
+        return helper.convert(gson.fromJson(jsonString, Object.class)).resolve();
     }
 
     private SanitizedContent soyListToJson(final SoyList soyValue) {
@@ -56,7 +70,7 @@ public class SoyJsonUtils {
         return fromSafeScript(SafeScripts.fromConstant(stringBuilder.toString()));
     }
 
-    public SanitizedContent soyDictToJson(SoyDict dict) {
+    private SanitizedContent soyDictToJson(SoyDict dict) {
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("{");
