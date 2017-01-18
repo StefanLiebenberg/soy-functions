@@ -1,4 +1,4 @@
-package org.slieb.soy.plugins.soyfunctions;
+package org.slieb.soy.plugins.soyfunctions.internal;
 
 import com.google.common.html.types.SafeScripts;
 import com.google.gson.Gson;

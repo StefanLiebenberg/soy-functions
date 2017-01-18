@@ -1,18 +1,21 @@
-package org.slieb.soy.plugins.soyfunctions;
+package org.slieb.soy.plugins.soyfunctions.string;
 
 import com.google.template.soy.data.SoyValue;
 import com.google.template.soy.data.restricted.IntegerData;
 import com.google.template.soy.jssrc.restricted.JsExpr;
-import com.google.template.soy.jssrc.restricted.SoyJsSrcFunction;
-import com.google.template.soy.shared.restricted.SoyFunction;
-import com.google.template.soy.shared.restricted.SoyJavaFunction;
+import com.google.template.soy.shared.restricted.SoyPureFunction;
+import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyFunction;
 
 import java.util.List;
-import java.util.Set;
 
 import static java.util.Collections.singleton;
 
-public class StringLengthSoyFunction implements SoyFunction, SoyJsSrcFunction, SoyJavaFunction {
+@SoyPureFunction
+public class StringLengthSoyFunction extends AbstractSoyFunction {
+
+    public StringLengthSoyFunction() {
+        super("strLength", singleton(1));
+    }
 
     @Override
     public JsExpr computeForJsSrc(final List<JsExpr> args) {
@@ -25,15 +28,5 @@ public class StringLengthSoyFunction implements SoyFunction, SoyJsSrcFunction, S
         final SoyValue stringArg = args.get(0);
         final String stringValue = stringArg.coerceToString();
         return IntegerData.forValue(stringValue.length());
-    }
-
-    @Override
-    public String getName() {
-        return "strLength";
-    }
-
-    @Override
-    public Set<Integer> getValidArgsSizes() {
-        return singleton(1);
     }
 }

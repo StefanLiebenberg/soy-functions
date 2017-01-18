@@ -1,18 +1,21 @@
-package org.slieb.soy.plugins.soyfunctions;
+package org.slieb.soy.plugins.soyfunctions.string;
 
 import com.google.template.soy.data.SoyValue;
 import com.google.template.soy.data.restricted.FloatData;
 import com.google.template.soy.jssrc.restricted.JsExpr;
-import com.google.template.soy.jssrc.restricted.SoyJsSrcFunction;
-import com.google.template.soy.shared.restricted.SoyFunction;
-import com.google.template.soy.shared.restricted.SoyJavaFunction;
+import com.google.template.soy.shared.restricted.SoyPureFunction;
+import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyFunction;
 
 import java.util.List;
-import java.util.Set;
 
 import static java.util.Collections.singleton;
 
-class ParseFloatSoyFunction implements SoyFunction, SoyJsSrcFunction, SoyJavaFunction {
+@SoyPureFunction
+public class ParseFloatSoyFunction extends AbstractSoyFunction {
+
+    public ParseFloatSoyFunction() {
+        super("parseFloat", singleton(1));
+    }
 
     @Override
     public JsExpr computeForJsSrc(final List<JsExpr> args) {
@@ -27,15 +30,5 @@ class ParseFloatSoyFunction implements SoyFunction, SoyJsSrcFunction, SoyJavaFun
         String stringValue = argument.coerceToString();
         float value = Float.parseFloat(stringValue);
         return FloatData.forValue(value);
-    }
-
-    @Override
-    public String getName() {
-        return "parseFloat";
-    }
-
-    @Override
-    public Set<Integer> getValidArgsSizes() {
-        return singleton(1);
     }
 }

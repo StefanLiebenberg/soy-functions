@@ -1,20 +1,22 @@
-package org.slieb.soy.plugins.soyfunctions;
+package org.slieb.soy.plugins.soyfunctions.string;
 
 import com.google.template.soy.data.SoyValue;
 import com.google.template.soy.data.restricted.IntegerData;
 import com.google.template.soy.jssrc.restricted.JsExpr;
-import com.google.template.soy.jssrc.restricted.SoyJsSrcFunction;
-import com.google.template.soy.shared.restricted.SoyFunction;
-import com.google.template.soy.shared.restricted.SoyJavaFunction;
+import com.google.template.soy.shared.restricted.SoyPureFunction;
+import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyFunction;
 
 import java.util.List;
-import java.util.Set;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static java.util.Collections.unmodifiableSet;
 
-@SuppressWarnings("WeakerAccess")
-public class ParseIntegerSoyFunction implements SoyFunction, SoyJsSrcFunction, SoyJavaFunction {
+@SoyPureFunction
+public class ParseIntegerSoyFunction extends AbstractSoyFunction {
+
+    public ParseIntegerSoyFunction() {
+        super("parseInt", unmodifiableSet(newHashSet(1, 2)));
+    }
 
     @Override
     public JsExpr computeForJsSrc(final List<JsExpr> args) {
@@ -38,15 +40,5 @@ public class ParseIntegerSoyFunction implements SoyFunction, SoyJsSrcFunction, S
         } else {
             return IntegerData.forValue(Integer.parseInt(stringValue));
         }
-    }
-
-    @Override
-    public String getName() {
-        return "parseInt";
-    }
-
-    @Override
-    public Set<Integer> getValidArgsSizes() {
-        return unmodifiableSet(newHashSet(1, 2));
     }
 }

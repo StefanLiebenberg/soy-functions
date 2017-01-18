@@ -1,18 +1,21 @@
-package org.slieb.soy.plugins.soyfunctions;
+package org.slieb.soy.plugins.soyfunctions.string;
 
 import com.google.template.soy.data.SoyValue;
 import com.google.template.soy.data.restricted.StringData;
 import com.google.template.soy.jssrc.restricted.JsExpr;
-import com.google.template.soy.jssrc.restricted.SoyJsSrcFunction;
-import com.google.template.soy.shared.restricted.SoyFunction;
-import com.google.template.soy.shared.restricted.SoyJavaFunction;
+import com.google.template.soy.shared.restricted.SoyPureFunction;
+import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyFunction;
 
 import java.util.List;
-import java.util.Set;
 
 import static java.util.Collections.singleton;
 
-public class ToLowerCaseSoyFunction implements SoyFunction, SoyJavaFunction, SoyJsSrcFunction {
+@SoyPureFunction
+public class ToLowerCaseSoyFunction extends AbstractSoyFunction {
+
+    public ToLowerCaseSoyFunction() {
+        super("toLowerCase", singleton(1));
+    }
 
     @Override
     public JsExpr computeForJsSrc(final List<JsExpr> args) {
@@ -22,15 +25,5 @@ public class ToLowerCaseSoyFunction implements SoyFunction, SoyJavaFunction, Soy
     @Override
     public SoyValue computeForJava(final List<SoyValue> args) {
         return StringData.forValue(args.get(0).stringValue().toLowerCase());
-    }
-
-    @Override
-    public String getName() {
-        return "toLowerCase";
-    }
-
-    @Override
-    public Set<Integer> getValidArgsSizes() {
-        return singleton(1);
     }
 }

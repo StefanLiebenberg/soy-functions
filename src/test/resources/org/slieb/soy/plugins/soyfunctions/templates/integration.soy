@@ -18,9 +18,10 @@
 /**
  * @param Object
  */
-{template .toJson}
+{template .toJson  kind="js"}
   {toJson($Object)}
 {/template}
+
 
 /**
  * @param JsonString
@@ -45,7 +46,51 @@
 
 /**
  * @param String
+
  */
 {template .strLength}
   {strLength($String)}
 {/template}
+
+
+/**
+ * @param String
+ * @param Start
+ * @param End
+ */
+{template .substring}
+  {substring($String, $Start, $End)}
+{/template}
+
+/**
+ * @param String
+ */
+{template .capitalize}
+  {capitalize($String)}
+{/template}
+
+/**
+ * @param String
+ */
+{template .trim}
+  {trim($String)}
+{/template}
+
+
+/**
+ * @param String
+ * @param Separator
+ */
+{template .split}
+  {split($String, $Separator)}
+{/template}
+
+/**
+ * @param Strings
+ * @param Separator
+ */
+{template .join}
+  {join($Strings, $Separator)}
+{/template}
+
+
