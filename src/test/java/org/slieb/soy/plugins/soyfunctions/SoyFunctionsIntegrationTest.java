@@ -183,4 +183,21 @@ public class SoyFunctionsIntegrationTest {
         assertEquals("some/things/split", doJoin(Stream.of("some", "things", "split").toArray(String[]::new), "/"));
         assertEquals("a//b", doJoin(Stream.of("a", "", "b").toArray(String[]::new), "/"));
     }
+
+    private String doToFixed(String number, int digits) {
+        Map<String, Object> data = Maps.newHashMap();
+        data.put("Number", number);
+        data.put("Digits", digits);
+        return getRenderer("templates.integration.toFixed")
+                .setContentKind(SanitizedContent.ContentKind.TEXT)
+                .setData(data)
+                .render();
+    }
+
+    @Test
+    public void testToFixed() {
+        assertEquals("10.00", doToFixed("10", 2));
+        assertEquals("10.1", doToFixed("10.123", 1));
+        assertEquals("0.0124", doToFixed("0.012356789", 4));
+    }
 }

@@ -27,6 +27,7 @@ public class SoyFunctionsModule extends AbstractModule {
         pluginBinder.addBinding().to(TrimSoyFunction.class);
         pluginBinder.addBinding().to(SubstringSoyFunction.class);
         pluginBinder.addBinding().to(CapitalizeSoyFunction.class);
+        pluginBinder.addBinding().to(ToFixedSoyFunction.class);
 
     }
 
