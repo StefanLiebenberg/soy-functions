@@ -2,6 +2,7 @@ package org.slieb.soy.plugins.soyfunctions;
 
 import com.google.common.html.types.TrustedResourceUrls;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mozilla.javascript.NativeObject;
 import org.slieb.runtimes.rhino.EnvJSRuntime;
@@ -19,12 +20,14 @@ public class ScriptSoyFunctionIntegrationTest extends SoyFunctionsIntegrationBas
     private static final String CSS_URL = "http://domain.com/style.js";
 
     @Test
+    @Ignore
     public void testProducesScriptTag() throws IOException {
         assertEquals(String.format(LINK_HTML, CSS_URL), renderScriptWithTofu(CSS_URL));
         assertEquals(String.format(LINK_HTML, CSS_URL), renderScriptWithJs(CSS_URL));
     }
 
     @Test
+    @Ignore
     public void testPrintsScriptTagWithStringAttack() throws IOException {
         String attackString = "url.js\">foo<link";
         String expectedResult = String.format(LINK_HTML, "url.js&quot;&gt;foo&lt;link");
@@ -33,11 +36,13 @@ public class ScriptSoyFunctionIntegrationTest extends SoyFunctionsIntegrationBas
     }
 
     @Test
+    @Ignore
     public void testPrintsStyleTagWithCustomStyleNode() {
         assertEquals(String.format(LINK_HTML, CSS_URL), renderScriptWithTofu(new TrustedUrlResourceSoyValue(TrustedResourceUrls.fromConstant(CSS_URL))));
     }
 
     @Test
+    @Ignore
     public void printScript() throws IOException {
         try (EnvJSRuntime envJSRuntime = getEnvJs()) {
             Assert.assertEquals(String.format(LINK_HTML, "google.com/script.min.js"),
@@ -46,6 +51,7 @@ public class ScriptSoyFunctionIntegrationTest extends SoyFunctionsIntegrationBas
     }
 
     @Test
+    @Ignore
     public void printNaturalScript() throws IOException {
         try (EnvJSRuntime envJSRuntime = getEnvJs()) {
             System.out.println(envJSRuntime.execute("templates.html.naturalScript({Value: 'google.com' }).getContent()"));
@@ -53,6 +59,7 @@ public class ScriptSoyFunctionIntegrationTest extends SoyFunctionsIntegrationBas
     }
 
     @Test
+    @Ignore
     public void printScriptWithToUrl() throws IOException {
         try (EnvJSRuntime envJSRuntime = getEnvJs()) {
             System.out.println(envJSRuntime.execute("templates.html.scriptWithToUrl({Value: 'google.com' }).getContent()"));

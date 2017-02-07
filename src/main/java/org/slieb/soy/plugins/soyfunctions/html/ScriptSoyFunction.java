@@ -7,22 +7,24 @@ import com.google.template.soy.data.SanitizedContent;
 import com.google.template.soy.data.SanitizedContents;
 import com.google.template.soy.data.SoyValue;
 import com.google.template.soy.jssrc.restricted.JsExpr;
-import com.google.template.soy.jssrc.restricted.SoyJsSrcFunction;
-import com.google.template.soy.shared.restricted.SoyFunction;
-import com.google.template.soy.shared.restricted.SoyJavaFunction;
+import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyFunction;
 import org.slieb.soy.plugins.soyfunctions.models.ImportableNode;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import static com.google.template.soy.data.SanitizedContent.ContentKind.HTML;
 import static com.google.template.soy.jssrc.restricted.JsExprUtils.maybeWrapAsSanitizedContent;
 
-public class ScriptSoyFunction implements SoyFunction, SoyJavaFunction, SoyJsSrcFunction {
+public class ScriptSoyFunction extends AbstractSoyFunction.PlaceHolderSoyFunction {
+
+    public ScriptSoyFunction() {
+        super("script", Collections.singleton(1));
+    }
 
     @Override
     public JsExpr computeForJsSrc(final List<JsExpr> args) {
+        warnNotImplementedYet();
         final JsExpr jsExpr = args.get(0);
         final String expression = String.format("'<script type=\"text/javascript\" src=\"' + %s(%s(%s)) + '\"></script>'",
                                                 "soy.$$escapeHtmlAttribute",
@@ -33,6 +35,7 @@ public class ScriptSoyFunction implements SoyFunction, SoyJavaFunction, SoyJsSrc
 
     @Override
     public SoyValue computeForJava(final List<SoyValue> args) {
+        warnNotImplementedYet();
         final SoyValue soyValue = args.get(0);
         if (soyValue instanceof ImportableNode) {
             return getSanitizedScriptWithTrustedResourceUrl(((ImportableNode) soyValue).getImportResourceUrl());
@@ -49,21 +52,6 @@ public class ScriptSoyFunction implements SoyFunction, SoyJavaFunction, SoyJsSrc
 
     private SoyValue getSanitizedScriptWithTrustedResourceUrl(final TrustedResourceUrl value) {
         return SanitizedContents.fromSafeHtml(SafeHtmls.fromScriptUrl(value));
-    }
-
-    /**
-     * Gets the name of the Soy function.
-     *
-     * @return The name of the Soy function.
-     */
-    @Override
-    public String getName() {
-        return "script";
-    }
-
-    @Override
-    public Set<Integer> getValidArgsSizes() {
-        return Collections.singleton(1);
     }
 }
 

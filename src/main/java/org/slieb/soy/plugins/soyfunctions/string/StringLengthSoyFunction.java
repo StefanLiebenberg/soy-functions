@@ -11,7 +11,7 @@ import java.util.List;
 import static java.util.Collections.singleton;
 
 @SoyPureFunction
-public class StringLengthSoyFunction extends AbstractSoyFunction {
+public class StringLengthSoyFunction extends AbstractSoyFunction.AbstractSoyPureFunction {
 
     public StringLengthSoyFunction() {
         super("strLength", singleton(1));
@@ -24,7 +24,7 @@ public class StringLengthSoyFunction extends AbstractSoyFunction {
     }
 
     @Override
-    public SoyValue computeForJava(final List<SoyValue> args) {
+    public IntegerData computeForJava(final List<SoyValue> args) {
         final SoyValue stringArg = args.get(0);
         final String stringValue = stringArg.coerceToString();
         return IntegerData.forValue(stringValue.length());

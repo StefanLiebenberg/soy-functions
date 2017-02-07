@@ -11,8 +11,9 @@ import java.util.List;
 
 import static java.util.Collections.singleton;
 
+// todo, test pure function
 @SoyPureFunction
-public class ParseJsonSoyFunction extends AbstractSoyFunction {
+public class ParseJsonSoyFunction extends AbstractSoyFunction<SoyValue> {
 
     private final SoyJsonUtils soyJsonUtil;
 

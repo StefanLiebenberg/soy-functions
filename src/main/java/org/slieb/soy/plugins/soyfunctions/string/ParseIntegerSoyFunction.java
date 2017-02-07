@@ -12,7 +12,7 @@ import static com.google.common.collect.Sets.newHashSet;
 import static java.util.Collections.unmodifiableSet;
 
 @SoyPureFunction
-public class ParseIntegerSoyFunction extends AbstractSoyFunction {
+public class ParseIntegerSoyFunction extends AbstractSoyFunction.AbstractSoyPureFunction {
 
     public ParseIntegerSoyFunction() {
         super("parseInt", unmodifiableSet(newHashSet(1, 2)));
@@ -30,9 +30,9 @@ public class ParseIntegerSoyFunction extends AbstractSoyFunction {
     }
 
     @Override
-    public SoyValue computeForJava(final List<SoyValue> args) {
-        SoyValue argument = args.get(0);
-        String stringValue = argument.coerceToString();
+    public IntegerData computeForJava(final List<SoyValue> args) {
+        final SoyValue argument = args.get(0);
+        final String stringValue = argument.coerceToString();
         if (args.size() >= 2) {
             SoyValue radix = args.get(1);
             int radix1 = radix.integerValue();

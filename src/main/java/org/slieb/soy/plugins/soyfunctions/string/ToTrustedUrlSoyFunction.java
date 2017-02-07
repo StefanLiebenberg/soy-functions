@@ -1,34 +1,27 @@
 package org.slieb.soy.plugins.soyfunctions.string;
 
+import com.google.template.soy.data.SanitizedContent;
 import com.google.template.soy.data.SoyValue;
 import com.google.template.soy.jssrc.restricted.JsExpr;
-import com.google.template.soy.jssrc.restricted.SoyJsSrcFunction;
-import com.google.template.soy.shared.restricted.SoyJavaFunction;
+import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyFunction;
 
 import java.util.List;
-import java.util.Set;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.template.soy.data.SanitizedContent.ContentKind.TRUSTED_RESOURCE_URI;
 import static com.google.template.soy.data.UnsafeSanitizedContentOrdainer.ordainAsSafe;
 import static com.google.template.soy.jssrc.restricted.JsExprUtils.maybeWrapAsSanitizedContent;
-import static java.util.Collections.unmodifiableSet;
 
-public class ToTrustedUrlSoyFunction implements SoyJsSrcFunction, SoyJavaFunction {
+public class ToTrustedUrlSoyFunction extends AbstractSoyFunction.AbstractSanitizedSoyFunction {
 
-    @Override
-    public String getName() {
-        return "toTrustedUrl";
+    public ToTrustedUrlSoyFunction() {
+        super("toTrustedUrl", newHashSet(1, 2));
     }
 
     @Override
-    public Set<Integer> getValidArgsSizes() {
-        return unmodifiableSet(newHashSet(1, 2));
-    }
-
-    @Override
-    public SoyValue computeForJava(final List<SoyValue> args) {
-        return ordainAsSafe(args.get(0).coerceToString(), TRUSTED_RESOURCE_URI);
+    public SanitizedContent computeForJava(final List<SoyValue> args) {
+        final SoyValue soyValue = args.get(0);
+        return ordainAsSafe(soyValue.coerceToString(), TRUSTED_RESOURCE_URI);
     }
 
     @Override

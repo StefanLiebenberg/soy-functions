@@ -8,10 +8,13 @@ import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyFunction;
 
 import java.util.List;
 
+import static com.google.template.soy.data.SanitizedContent.ContentKind.TEXT;
+import static com.google.template.soy.jssrc.restricted.JsExprUtils.maybeWrapAsSanitizedContent;
+import static java.lang.Integer.MAX_VALUE;
 import static java.util.Collections.singleton;
 
 @SoyPureFunction
-public class ToUpperCaseSoyFunction extends AbstractSoyFunction {
+public class ToUpperCaseSoyFunction extends AbstractSoyFunction.AbstractSoyPureFunction {
 
     public ToUpperCaseSoyFunction() {
         super("toUpperCase", singleton(1));
@@ -19,11 +22,15 @@ public class ToUpperCaseSoyFunction extends AbstractSoyFunction {
 
     @Override
     public JsExpr computeForJsSrc(final List<JsExpr> args) {
-        return new JsExpr(args.get(0).getText() + ".toUpperCase()", Integer.MAX_VALUE);
+        final JsExpr strExpr = args.get(0);
+        final JsExpr upperCaseExpr = new JsExpr(strExpr.getText() + ".toUpperCase()", MAX_VALUE);
+        return maybeWrapAsSanitizedContent(TEXT, upperCaseExpr);
     }
 
     @Override
-    public SoyValue computeForJava(final List<SoyValue> args) {
-        return StringData.forValue(args.get(0).stringValue().toUpperCase());
+    public StringData computeForJava(final List<SoyValue> args) {
+        final SoyValue soyValue = args.get(0);
+        final String s = soyValue.stringValue();
+        return StringData.forValue(s.toUpperCase());
     }
 }

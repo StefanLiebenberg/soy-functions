@@ -11,7 +11,7 @@ import java.util.List;
 import static java.util.Collections.singleton;
 
 @SoyPureFunction
-public class ParseFloatSoyFunction extends AbstractSoyFunction {
+public class ParseFloatSoyFunction extends AbstractSoyFunction.AbstractSoyPureFunction {
 
     public ParseFloatSoyFunction() {
         super("parseFloat", singleton(1));
@@ -19,15 +19,15 @@ public class ParseFloatSoyFunction extends AbstractSoyFunction {
 
     @Override
     public JsExpr computeForJsSrc(final List<JsExpr> args) {
-        JsExpr expr = args.get(0);
-        String text = expr.getText();
+        final JsExpr expr = args.get(0);
+        final String text = expr.getText();
         return new JsExpr("parseFloat(" + text + ")", Integer.MAX_VALUE);
     }
-
+    
     @Override
-    public SoyValue computeForJava(final List<SoyValue> args) {
-        SoyValue argument = args.get(0);
-        String stringValue = argument.coerceToString();
+    public FloatData computeForJava(final List<SoyValue> args) {
+        final SoyValue argument = args.get(0);
+        final String stringValue = argument.coerceToString();
         float value = Float.parseFloat(stringValue);
         return FloatData.forValue(value);
     }

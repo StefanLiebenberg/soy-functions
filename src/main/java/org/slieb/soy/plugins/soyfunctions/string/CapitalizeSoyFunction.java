@@ -16,7 +16,8 @@ import static com.google.template.soy.jssrc.restricted.JsExprUtils.maybeWrapAsSa
 import static java.lang.Integer.MAX_VALUE;
 
 @SoyPureFunction
-public class CapitalizeSoyFunction extends AbstractSoyFunction implements SoyLibraryAssistedJsSrcFunction {
+public class CapitalizeSoyFunction extends AbstractSoyFunction.AbstractSoyPureFunction
+        implements SoyLibraryAssistedJsSrcFunction {
 
     public CapitalizeSoyFunction() {
         super("capitalize", Collections.singleton(1));
@@ -29,7 +30,7 @@ public class CapitalizeSoyFunction extends AbstractSoyFunction implements SoyLib
     }
 
     @Override
-    public SoyValue computeForJava(final List<SoyValue> list) {
+    public StringData computeForJava(final List<SoyValue> list) {
         final String stringValue = list.get(0).stringValue();
         return StringData.forValue(stringValue.substring(0, 1).toUpperCase() + stringValue.substring(1).toLowerCase());
     }

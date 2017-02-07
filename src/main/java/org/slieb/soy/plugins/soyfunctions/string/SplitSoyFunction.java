@@ -14,7 +14,7 @@ import static java.util.Collections.singleton;
 import static java.util.stream.Collectors.toList;
 
 @SoyPureFunction
-public class SplitSoyFunction extends AbstractSoyFunction {
+public class SplitSoyFunction extends AbstractSoyFunction<SoyListData> {
 
     public SplitSoyFunction() {
         super("split", singleton(2));
@@ -28,10 +28,10 @@ public class SplitSoyFunction extends AbstractSoyFunction {
     }
 
     @Override
-    public SoyValue computeForJava(final List<SoyValue> list) {
+    public SoyListData computeForJava(final List<SoyValue> list) {
         final SoyValue string = list.get(0);
         final SoyValue separator = list.get(1);
         return new SoyListData(Arrays.stream(string.stringValue().split(separator.stringValue()))
-                                     .map(StringData::forValue).collect(toList()));
+                                       .map(StringData::forValue).collect(toList()));
     }
 }
