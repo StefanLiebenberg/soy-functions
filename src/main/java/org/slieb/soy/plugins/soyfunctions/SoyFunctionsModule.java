@@ -1,8 +1,11 @@
 package org.slieb.soy.plugins.soyfunctions;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
 import com.google.inject.multibindings.Multibinder;
+import com.google.template.soy.data.SoyCustomValueConverter;
 import com.google.template.soy.shared.restricted.SoyFunction;
+import org.slieb.soy.plugins.soyfunctions.converters.SoyDateTimeConverter;
 import org.slieb.soy.plugins.soyfunctions.extra.PrintDateSoyFunction;
 import org.slieb.soy.plugins.soyfunctions.extra.ToSafeUrlSoyFunction;
 import org.slieb.soy.plugins.soyfunctions.html.HtmlSoyFunction;
@@ -10,7 +13,11 @@ import org.slieb.soy.plugins.soyfunctions.html.ScriptSoyFunction;
 import org.slieb.soy.plugins.soyfunctions.html.StyleSoyFunction;
 import org.slieb.soy.plugins.soyfunctions.string.*;
 
+import java.util.List;
+import java.util.Set;
+
 import static com.google.inject.multibindings.Multibinder.newSetBinder;
+import static java.util.stream.Collectors.toList;
 
 @SuppressWarnings("WeakerAccess")
 public class SoyFunctionsModule extends AbstractModule {
@@ -37,5 +44,13 @@ public class SoyFunctionsModule extends AbstractModule {
         pluginBinder.addBinding().to(ToSafeUrlSoyFunction.class);
         pluginBinder.addBinding().to(ToTrustedUrlSoyFunction.class);
         pluginBinder.addBinding().to(HtmlSoyFunction.class);
+
+        final Multibinder<SoyCustomValueConverter> converters = newSetBinder(binder(), SoyCustomValueConverter.class);
+        converters.addBinding().to(SoyDateTimeConverter.class);
+    }
+
+    @Provides
+    public List<SoyCustomValueConverter> customValueConverters(Set<SoyCustomValueConverter> customValueConverters) {
+        return customValueConverters.stream().collect(toList());
     }
 }

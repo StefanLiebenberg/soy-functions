@@ -27,9 +27,11 @@ public class SoyFunctionsIntegrationBaseTest {
 
     SoyFileSet getFileSet() {
         final SoyFileSet.Builder builder = getBuilder();
+        final Class<?> klass = getClass();
         final SoyFileSet fileset = builder
-                .add(SoyFunctionsIntegrationTest.class.getResource("/org/slieb/soy/plugins/soyfunctions/templates/integration.soy"))
-                .add(SoyFunctionsIntegrationTest.class.getResource("/org/slieb/soy/plugins/soyfunctions/templates/style.soy"))
+                .add(klass.getResource("/org/slieb/soy/plugins/soyfunctions/templates/integration.soy"))
+                .add(klass.getResource("/org/slieb/soy/plugins/soyfunctions/templates/style.soy"))
+                .add(klass.getResource("/org/slieb/soy/plugins/soyfunctions/templates/date.soy"))
                 .build();
 
         return getFileSet(fileset);
@@ -67,18 +69,9 @@ public class SoyFunctionsIntegrationBaseTest {
 
         SoyJsSrcOptions jsSrcOptions = new SoyJsSrcOptions();
         jsSrcOptions.setShouldProvideRequireJsFunctions(true);
-        //        try (FileWriter writer = new FileWriter(new File("template.js"))) {
 
         getFileSet().compileToJsSrc(jsSrcOptions, SoyMsgBundle.EMPTY)
-                .forEach(code -> {
-                    //                        try {
-                    ////                            writer.write(code);
-                    //                        } catch (IOException e) {
-                    //                            e.printStackTrace();
-                    //                        }
-                    envJSRuntime.execute(code);
-                });
-        //        }
+                .forEach(envJSRuntime::execute);
 
         return envJSRuntime;
     }

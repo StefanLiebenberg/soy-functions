@@ -19,7 +19,7 @@
  * @param Value
  */
 {template .script}
-  {script(toTrustedUrl($Value))}
+{$Value} //  {script(toTrustedUrl($Value))}
 {/template}
 
 /**
@@ -33,14 +33,15 @@
  * @param Value
  */
 {template .scriptWithToUrl}
-  {script(toSafeUrl($Value))}
+{$Value}
+//  {script(toSafeUrl($Value))}
 {/template}
 
 
 /**
  */
 {template .html}
-  {html([script(toSafeUrl('a')), style(toSafeUrl('b'))])}
+//  {html([script(toSafeUrl('a')), style(toSafeUrl('b'))])}
 {/template}
 
 

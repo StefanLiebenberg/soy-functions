@@ -1,0 +1,25 @@
+{namespace templates.date}
+
+/**
+ * @param Date
+ */
+{template .printDate}
+  {printDate($Date)}
+{/template}
+
+/**
+ * @param Date
+ * @param Format
+ */
+{template .printDateWithFormat}
+  {printDate($Date, $Format)}
+{/template}
+
+/**
+ * @param Date
+ * @param Format
+ * @param Offset
+ */
+{template .printDateWithFormatAndZoneOffset}
+  {printDate($Date, $Format, $Offset)}
+{/template}
