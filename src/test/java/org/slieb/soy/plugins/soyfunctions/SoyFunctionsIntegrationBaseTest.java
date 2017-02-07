@@ -11,8 +11,6 @@ import org.apache.commons.io.IOUtils;
 import org.mozilla.javascript.*;
 import org.slieb.runtimes.rhino.EnvJSRuntime;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Map;
@@ -69,18 +67,18 @@ public class SoyFunctionsIntegrationBaseTest {
 
         SoyJsSrcOptions jsSrcOptions = new SoyJsSrcOptions();
         jsSrcOptions.setShouldProvideRequireJsFunctions(true);
-        try (FileWriter writer = new FileWriter(new File("template.js"))) {
+        //        try (FileWriter writer = new FileWriter(new File("template.js"))) {
 
-            getFileSet().compileToJsSrc(jsSrcOptions, SoyMsgBundle.EMPTY)
-                    .forEach(code -> {
-                        try {
-                            writer.write(code);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        envJSRuntime.execute(code);
-                    });
-        }
+        getFileSet().compileToJsSrc(jsSrcOptions, SoyMsgBundle.EMPTY)
+                .forEach(code -> {
+                    //                        try {
+                    ////                            writer.write(code);
+                    //                        } catch (IOException e) {
+                    //                            e.printStackTrace();
+                    //                        }
+                    envJSRuntime.execute(code);
+                });
+        //        }
 
         return envJSRuntime;
     }
