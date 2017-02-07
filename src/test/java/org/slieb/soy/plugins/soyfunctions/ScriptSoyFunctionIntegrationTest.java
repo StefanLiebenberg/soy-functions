@@ -1,12 +1,10 @@
 package org.slieb.soy.plugins.soyfunctions;
 
-import com.google.common.html.types.TrustedResourceUrls;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mozilla.javascript.NativeObject;
 import org.slieb.runtimes.rhino.EnvJSRuntime;
-import org.slieb.soy.plugins.soyfunctions.models.TrustedUrlResourceSoyValue;
 
 import java.io.IOException;
 
@@ -33,12 +31,6 @@ public class ScriptSoyFunctionIntegrationTest extends SoyFunctionsIntegrationBas
         String expectedResult = String.format(LINK_HTML, "url.js&quot;&gt;foo&lt;link");
         assertEquals(expectedResult, renderScriptWithTofu(attackString));
         assertEquals(expectedResult, renderScriptWithJs(attackString));
-    }
-
-    @Test
-    @Ignore
-    public void testPrintsStyleTagWithCustomStyleNode() {
-        assertEquals(String.format(LINK_HTML, CSS_URL), renderScriptWithTofu(new TrustedUrlResourceSoyValue(TrustedResourceUrls.fromConstant(CSS_URL))));
     }
 
     @Test
