@@ -32,9 +32,9 @@ public class JoinSoyFunction extends AbstractSoyFunction {
         if (strings instanceof SoyList) {
             final SoyList stringsList = (SoyList) strings;
             return StringData.forValue(stringsList.asResolvedJavaList()
-                                                  .stream()
-                                                  .map(SoyValue::stringValue)
-                                                  .collect(Collectors.joining(separator.stringValue())));
+                                               .stream()
+                                               .map(SoyValue::stringValue)
+                                               .collect(Collectors.joining(separator.stringValue())));
         } else {
             throw new RuntimeException("not a soylist");
         }

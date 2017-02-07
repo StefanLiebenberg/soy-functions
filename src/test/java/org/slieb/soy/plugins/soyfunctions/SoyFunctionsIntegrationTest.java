@@ -1,15 +1,10 @@
 package org.slieb.soy.plugins.soyfunctions;
 
 import com.google.common.collect.Maps;
-import com.google.inject.Guice;
-import com.google.template.soy.SoyFileSet;
-import com.google.template.soy.SoyModule;
 import com.google.template.soy.data.SanitizedContent;
-import com.google.template.soy.tofu.SoyTofu;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.net.URL;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -17,32 +12,8 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
 
-public class SoyFunctionsIntegrationTest {
-
-    private SoyTofu getTofu() {
-        final SoyFileSet.Builder builder = getBuilder();
-        final URL resource = SoyFunctionsIntegrationTest.class.getResource("templates/integration.soy");
-        final SoyFileSet fileset = builder
-                .add(resource)
-                .build();
-
-        return fileset
-                .compileToTofu();
-    }
-
-    private SoyFileSet.Builder getBuilder() {
-        return Guice.createInjector(new SoyModule(),
-                                    new SoyFunctionsModule())
-                    .getInstance(SoyFileSet.Builder.class);
-    }
-
-    private SoyTofu.Renderer getRenderer(final String s) {
-        return getTofu().newRenderer(s);
-    }
-
-    private String render(final String templateName, final Map<String, Object> data) {
-        return getRenderer(templateName).setData(data).render();
-    }
+@Deprecated
+public class SoyFunctionsIntegrationTest extends SoyFunctionsIntegrationBaseTest {
 
     @Test
     public void testParseJson() {
@@ -76,23 +47,9 @@ public class SoyFunctionsIntegrationTest {
         assertEquals(expected, render("templates.integration.printDate", data));
     }
 
-    @Test
-    public void testToLowerCaseSoyFunction() {
-        String value = "Some string That Has Mixed case.";
-        String expected = value.toLowerCase();
-        Map<String, Object> data = Maps.newHashMap();
-        data.put("String", value);
-        assertEquals(expected, render("templates.integration.toLowerCase", data));
-    }
 
-    @Test
-    public void testToUpperCaseSoyFunction() {
-        String value = "Some string That Has Mixed case.";
-        String expected = value.toUpperCase();
-        Map<String, Object> data = Maps.newHashMap();
-        data.put("String", value);
-        assertEquals(expected, render("templates.integration.toUpperCase", data));
-    }
+
+
 
     @Test
     public void testToJson() {
@@ -107,33 +64,7 @@ public class SoyFunctionsIntegrationTest {
                 .render());
     }
 
-    private String doCapitalize(final String string) {
-        Map<String, Object> data = Maps.newHashMap();
-        data.put("String", string);
-        return getRenderer("templates.integration.capitalize")
-                .setContentKind(SanitizedContent.ContentKind.TEXT)
-                .setData(data)
-                .render();
-    }
 
-    @Test
-    public void testCapitalize() {
-        assertEquals("Name", doCapitalize("name"));
-    }
-
-    @Test
-    public void testTrim() {
-        assertEquals("no space is left", doTrim(" no space is left  "));
-    }
-
-    private String doTrim(final String string) {
-        Map<String, Object> data = Maps.newHashMap();
-        data.put("String", string);
-        return getRenderer("templates.integration.trim")
-                .setContentKind(SanitizedContent.ContentKind.TEXT)
-                .setData(data)
-                .render();
-    }
 
     private String doSubstring(final String string, final int start, final int end) {
         Map<String, Object> data = Maps.newHashMap();

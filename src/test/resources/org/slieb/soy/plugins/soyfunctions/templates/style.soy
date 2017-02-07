@@ -1,0 +1,48 @@
+{namespace templates.html}
+
+/**
+ * @param Value
+ */
+{template .style}
+  {style($Value)}
+{/template}
+
+/**
+ * @param Value
+ */
+{template .styleWithToUrl}
+  {style(toSafeUrl($Value))}
+{/template}
+
+
+/**
+ * @param Value
+ */
+{template .script}
+  {script(toTrustedUrl($Value))}
+{/template}
+
+/**
+ * @param Value
+ */
+{template .naturalScript}
+ <script src="{toTrustedUrl($Value)}"></script>
+{/template}
+
+/**
+ * @param Value
+ */
+{template .scriptWithToUrl}
+  {script(toSafeUrl($Value))}
+{/template}
+
+
+/**
+ */
+{template .html}
+  {html([script(toSafeUrl('a')), style(toSafeUrl('b'))])}
+{/template}
+
+
+
+

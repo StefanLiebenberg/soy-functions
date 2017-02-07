@@ -25,7 +25,7 @@ public class ParseIntegerSoyFunction extends AbstractSoyFunction {
             JsExpr radix = args.get(1);
             return new JsExpr("parseInt(" + expr.getText() + ", " + radix.getText() + ")", Integer.MAX_VALUE);
         } else {
-            return new JsExpr("parseInt(" + expr.getText() + ")", Integer.MAX_VALUE);
+            return new JsExpr("parseInt(" + expr.getText() + ", 10)", Integer.MAX_VALUE);
         }
     }
 

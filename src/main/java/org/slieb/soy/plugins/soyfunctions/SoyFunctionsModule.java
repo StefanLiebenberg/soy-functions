@@ -4,6 +4,10 @@ import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
 import com.google.template.soy.shared.restricted.SoyFunction;
 import org.slieb.soy.plugins.soyfunctions.extra.PrintDateSoyFunction;
+import org.slieb.soy.plugins.soyfunctions.extra.ToSafeUrlSoyFunction;
+import org.slieb.soy.plugins.soyfunctions.html.HtmlSoyFunction;
+import org.slieb.soy.plugins.soyfunctions.html.ScriptSoyFunction;
+import org.slieb.soy.plugins.soyfunctions.html.StyleSoyFunction;
 import org.slieb.soy.plugins.soyfunctions.string.*;
 
 import static com.google.inject.multibindings.Multibinder.newSetBinder;
@@ -28,7 +32,10 @@ public class SoyFunctionsModule extends AbstractModule {
         pluginBinder.addBinding().to(SubstringSoyFunction.class);
         pluginBinder.addBinding().to(CapitalizeSoyFunction.class);
         pluginBinder.addBinding().to(ToFixedSoyFunction.class);
-
+        pluginBinder.addBinding().to(StyleSoyFunction.class);
+        pluginBinder.addBinding().to(ScriptSoyFunction.class);
+        pluginBinder.addBinding().to(ToSafeUrlSoyFunction.class);
+        pluginBinder.addBinding().to(ToTrustedUrlSoyFunction.class);
+        pluginBinder.addBinding().to(HtmlSoyFunction.class);
     }
-
 }

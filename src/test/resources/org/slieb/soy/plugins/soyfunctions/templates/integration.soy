@@ -58,21 +58,21 @@
  * @param Start
  * @param End
  */
-{template .substring}
+{template .substring kind="text"}
   {substring($String, $Start, $End)}
 {/template}
 
 /**
  * @param String
  */
-{template .capitalize}
+{template .capitalize  kind="text"}
   {capitalize($String)}
 {/template}
 
 /**
  * @param String
  */
-{template .trim}
+{template .trim  kind="text"}
   {trim($String)}
 {/template}
 
@@ -81,7 +81,7 @@
  * @param String
  * @param Separator
  */
-{template .split}
+{template .split  kind="text"}
   {split($String, $Separator)}
 {/template}
 
@@ -89,7 +89,7 @@
  * @param Strings
  * @param Separator
  */
-{template .join}
+{template .join kind="text"}
   {join($Strings, $Separator)}
 {/template}
 
@@ -97,6 +97,7 @@
  * @param Number
  * @param Digits
  */
-{template .toFixed}
+{template .toFixed kind="text"}
   {toFixed($Number, $Digits)}
 {/template}
+
