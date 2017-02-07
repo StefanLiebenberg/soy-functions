@@ -1,4 +1,6 @@
 org.slieb.soy.plugins.soyfunctions
 org.slieb.soy.plugins.soyfunctions.extra
+org.slieb.soy.plugins.soyfunctions.html
 org.slieb.soy.plugins.soyfunctions.internal
+org.slieb.soy.plugins.soyfunctions.models
 org.slieb.soy.plugins.soyfunctions.string
