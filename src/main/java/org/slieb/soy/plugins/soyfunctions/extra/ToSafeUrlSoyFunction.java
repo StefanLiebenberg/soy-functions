@@ -20,6 +20,7 @@ public class ToSafeUrlSoyFunction extends AbstractSoyFunction.AbstractSanitizedS
         super("toSafeUrl", singleton(1));
     }
 
+
     @Override
     public SanitizedContent computeForJava(final List<SoyValue> args) {
         final SoyValue soyValue = args.get(0);

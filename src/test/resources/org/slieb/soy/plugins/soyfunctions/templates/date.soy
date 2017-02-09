@@ -1,5 +1,21 @@
 {namespace templates.date}
 
+
+/**
+ * @param Value
+ */
+{template .toDateTime}
+  {toDateTime($Value)}
+{/template}
+
+/**
+ * @param Value
+ * @param Offset
+ */
+{template .toDateTimeWithOffset}
+  {toDateTime($Value, $Offset)}
+{/template}
+
 /**
  * @param Date
  */

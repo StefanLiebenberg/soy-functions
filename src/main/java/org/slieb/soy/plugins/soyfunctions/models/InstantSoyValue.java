@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.Objects;
 
-public class SoyDateTime extends SoyAbstractValue {
+public class InstantSoyValue extends SoyAbstractValue {
 
     public Instant getInstant() {
         return instant;
@@ -15,26 +15,21 @@ public class SoyDateTime extends SoyAbstractValue {
 
     private final Instant instant;
 
-    public SoyDateTime(final Instant instant) {this.instant = instant;}
+    public InstantSoyValue(final Instant instant) {this.instant = instant;}
 
-    /**
-     * Coerces this value into a boolean.
-     *
-     * @return This value coerced into a boolean.
-     */
     @Override
     public boolean coerceToBoolean() {
         return true;
     }
 
-    /**
-     * Coerces this value into a string.
-     *
-     * @return This value coerced into a string.
-     */
     @Override
     public String coerceToString() {
         return String.valueOf(instant.toEpochMilli());
+    }
+
+    @Override
+    public long longValue() {
+        return instant.toEpochMilli();
     }
 
     /**
@@ -55,7 +50,7 @@ public class SoyDateTime extends SoyAbstractValue {
     public boolean equals(final Object o) {
         if (this == o) { return true; }
         if (o == null || getClass() != o.getClass()) { return false; }
-        final SoyDateTime that = (SoyDateTime) o;
+        final InstantSoyValue that = (InstantSoyValue) o;
         return Objects.equals(instant, that.instant);
     }
 

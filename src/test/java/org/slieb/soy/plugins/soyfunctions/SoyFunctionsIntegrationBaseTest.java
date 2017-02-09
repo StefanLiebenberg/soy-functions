@@ -13,6 +13,7 @@ import org.slieb.runtimes.rhino.EnvJSRuntime;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.Instant;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -85,9 +86,21 @@ public class SoyFunctionsIntegrationBaseTest {
         return envJSRuntime.execute(command, path);
     }
 
-    protected NativeObject toNative(Map<String, Object> map) {
+    protected Object toNative(Object obj) {
+        if (obj instanceof Map) {
+            return toNativeObjectFromMap((Map<String, Object>) obj);
+        }
+
+        if (obj instanceof Instant) {
+            return String.valueOf(((Instant) obj).toEpochMilli());
+        }
+
+        return obj;
+    }
+
+    protected NativeObject toNativeObjectFromMap(Map<String, Object> map) {
         NativeObject nativeObject = new NativeObject();
-        map.forEach((key, value) -> nativeObject.defineProperty(key, value, NativeObject.READONLY));
+        map.forEach((key, value) -> nativeObject.defineProperty(key, toNative(value), NativeObject.READONLY));
         return nativeObject;
     }
 
@@ -107,7 +120,7 @@ public class SoyFunctionsIntegrationBaseTest {
 
     private String renderJs(String templateName, Map<String, Object> data) throws IOException {
         try (EnvJSRuntime runtime = getEnvJs()) {
-            runtime.putJavaObject("obj", toNative(data));
+            runtime.putJavaObject("obj", toNativeObjectFromMap(data));
             return runtime.execute(String.format("%s(obj).getContent();", templateName)).toString();
         }
     }

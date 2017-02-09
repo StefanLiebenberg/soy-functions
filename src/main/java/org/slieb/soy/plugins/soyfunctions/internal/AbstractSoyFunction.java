@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static java.util.Collections.unmodifiableSet;
@@ -27,6 +28,14 @@ public abstract class AbstractSoyFunction<R extends SoyValue> implements SoyFunc
     public AbstractSoyFunction(final String name, final Set<Integer> argSizes) {
         this.name = name;
         this.argSizes = unmodifiableSet(argSizes);
+    }
+
+    protected <T> Optional<T> getOptional(List<T> t, int argNr) {
+        if (t.size() >= argNr) {
+            return Optional.of(t.get(argNr - 1));
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -60,7 +69,7 @@ public abstract class AbstractSoyFunction<R extends SoyValue> implements SoyFunc
         }
     }
 
-    public static abstract class PlaceHolderSoyFunction extends AbstractSoyFunction<SoyValue> {
+    public static class PlaceHolderSoyFunction extends AbstractSoyFunction<SoyValue> {
 
         public PlaceHolderSoyFunction(final String name, final Set<Integer> argSizes) {
             super(name, argSizes);
@@ -83,5 +92,9 @@ public abstract class AbstractSoyFunction<R extends SoyValue> implements SoyFunc
         }
 
         private String getMessage() {return getName() + " has not been finished implemented yet!";}
+    }
+
+    public static PlaceHolderSoyFunction placeHolderSoyFunction(String name, Set<Integer> arguments) {
+        return new PlaceHolderSoyFunction(name, arguments);
     }
 }

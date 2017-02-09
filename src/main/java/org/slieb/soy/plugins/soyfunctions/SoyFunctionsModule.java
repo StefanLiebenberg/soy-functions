@@ -7,6 +7,7 @@ import com.google.template.soy.data.SoyCustomValueConverter;
 import com.google.template.soy.shared.restricted.SoyFunction;
 import org.slieb.soy.plugins.soyfunctions.converters.SoyDateTimeConverter;
 import org.slieb.soy.plugins.soyfunctions.extra.PrintDateSoyFunction;
+import org.slieb.soy.plugins.soyfunctions.extra.ToDateTimeSoyFunction;
 import org.slieb.soy.plugins.soyfunctions.extra.ToSafeUrlSoyFunction;
 import org.slieb.soy.plugins.soyfunctions.html.HtmlSoyFunction;
 import org.slieb.soy.plugins.soyfunctions.html.ScriptSoyFunction;
@@ -17,7 +18,9 @@ import java.util.List;
 import java.util.Set;
 
 import static com.google.inject.multibindings.Multibinder.newSetBinder;
+import static java.util.Collections.singleton;
 import static java.util.stream.Collectors.toList;
+import static org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyFunction.placeHolderSoyFunction;
 
 @SuppressWarnings("WeakerAccess")
 public class SoyFunctionsModule extends AbstractModule {
@@ -31,6 +34,7 @@ public class SoyFunctionsModule extends AbstractModule {
         pluginBinder.addBinding().to(ToUpperCaseSoyFunction.class);
         pluginBinder.addBinding().to(StringLengthSoyFunction.class);
         pluginBinder.addBinding().to(PrintDateSoyFunction.class);
+        pluginBinder.addBinding().to(ToDateTimeSoyFunction.class);
         pluginBinder.addBinding().to(ParseIntegerSoyFunction.class);
         pluginBinder.addBinding().to(ParseFloatSoyFunction.class);
         pluginBinder.addBinding().to(SplitSoyFunction.class);
@@ -44,6 +48,7 @@ public class SoyFunctionsModule extends AbstractModule {
         pluginBinder.addBinding().to(ToSafeUrlSoyFunction.class);
         pluginBinder.addBinding().to(ToTrustedUrlSoyFunction.class);
         pluginBinder.addBinding().to(HtmlSoyFunction.class);
+        pluginBinder.addBinding().toInstance(placeHolderSoyFunction("toInstant", singleton(1)));
 
         final Multibinder<SoyCustomValueConverter> converters = newSetBinder(binder(), SoyCustomValueConverter.class);
         converters.addBinding().to(SoyDateTimeConverter.class);
