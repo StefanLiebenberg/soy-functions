@@ -32,6 +32,7 @@ public class SoyFunctionsModule extends AbstractModule {
         pluginBinder.addBinding().to(ParseJsonSoyFunction.class);
         pluginBinder.addBinding().to(ToLowerCaseSoyFunction.class);
         pluginBinder.addBinding().to(StartsWithSoyFunction.class);
+        pluginBinder.addBinding().to(EndsWithSoyFunction.class);
         pluginBinder.addBinding().to(ToUpperCaseSoyFunction.class);
         pluginBinder.addBinding().to(StringLengthSoyFunction.class);
         pluginBinder.addBinding().to(PrintDateSoyFunction.class);
