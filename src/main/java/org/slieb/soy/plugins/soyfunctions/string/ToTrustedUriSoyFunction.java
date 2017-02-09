@@ -12,10 +12,10 @@ import static com.google.template.soy.data.SanitizedContent.ContentKind.TRUSTED_
 import static com.google.template.soy.data.UnsafeSanitizedContentOrdainer.ordainAsSafe;
 import static com.google.template.soy.jssrc.restricted.JsExprUtils.maybeWrapAsSanitizedContent;
 
-public class ToTrustedUrlSoyFunction extends AbstractSoyFunction.AbstractSanitizedSoyFunction {
+public class ToTrustedUriSoyFunction extends AbstractSoyFunction.AbstractSanitizedSoyFunction {
 
-    public ToTrustedUrlSoyFunction() {
-        super("toTrustedUrl", newHashSet(1, 2));
+    public ToTrustedUriSoyFunction() {
+        super("toTrustedUri", newHashSet(1, 2));
     }
 
     @Override

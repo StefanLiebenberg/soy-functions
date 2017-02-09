@@ -19,14 +19,14 @@
  * @param Value
  */
 {template .script}
-{$Value} //  {script(toTrustedUrl($Value))}
+{$Value} //  {script(toTrustedUri($Value))}
 {/template}
 
 /**
  * @param Value
  */
 {template .naturalScript}
- <script src="{toTrustedUrl($Value)}"></script>
+ <script src="{toTrustedUri($Value)}"></script>
 {/template}
 
 /**

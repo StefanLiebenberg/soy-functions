@@ -48,7 +48,7 @@ public class SoyFunctionsModule extends AbstractModule {
         pluginBinder.addBinding().to(StyleSoyFunction.class);
         pluginBinder.addBinding().to(ScriptSoyFunction.class);
         pluginBinder.addBinding().to(ToSafeUrlSoyFunction.class);
-        pluginBinder.addBinding().to(ToTrustedUrlSoyFunction.class);
+        pluginBinder.addBinding().to(ToTrustedUriSoyFunction.class);
         pluginBinder.addBinding().to(HtmlSoyFunction.class);
         pluginBinder.addBinding().toInstance(placeHolderSoyFunction("toInstant", singleton(1)));
 

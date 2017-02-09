@@ -6,7 +6,7 @@
 | printDate(date, format, tzOffset) : string | Prints some date object into string, might be differences between js and soy results. |
 | toDate(string) : DateTime                  |                                                                                       |
 | toSafeUrl(string) : SafeUrl                |                                                                                       |
-| toTrustedUrl(string) : TrustedUrl          |                                                                                       |
+| toTrustedUri(string) : TrustedUri          |                                                                                       |
 | html(Array) : Html                         |                                                                                       |
 | script(src) : Html                         |                                                                                       |
 | style(src) : Html                          |                                                                                       |
@@ -22,4 +22,4 @@
 | toJson(object) : string                    | Wrapper to goog.json.serialize()                                                      | 
 | toLowerCase(string) : string               | Transforms a string into lower case                                                   | 
 | toUpperCase(string) : string               | Transforms a string into upper case                                                   |
-| trim(string) : string                      | Trims a string                                                                        |
+| trim(string) : string                      | Trims a string |
