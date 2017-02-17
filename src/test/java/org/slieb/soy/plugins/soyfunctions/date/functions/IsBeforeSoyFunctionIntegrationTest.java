@@ -26,6 +26,14 @@ public class IsBeforeSoyFunctionIntegrationTest extends DateSoyFunctionsIntegrat
     }
 
     @Test
+    public void shouldCalculateIsBeforeForInstantEpoch() throws Exception {
+        final Instant date = Instant.now();
+        assertIsBeforeRendersEqualWithInstantEpoch("false", date, date.minusSeconds(1));
+        assertIsBeforeRendersEqualWithInstantEpoch("false", date, date);
+        assertIsBeforeRendersEqualWithInstantEpoch("true", date, date.plusSeconds(1));
+    }
+
+    @Test
     public void shouldCalculateIsBeforeForDateTime() throws Exception {
         final OffsetDateTime now = Instant.now().atOffset(ZoneOffset.UTC);
         assertIsBeforeRendersEqualWithDateTime("false", now, now.minusSeconds(1));
@@ -35,6 +43,10 @@ public class IsBeforeSoyFunctionIntegrationTest extends DateSoyFunctionsIntegrat
 
     private void assertIsBeforeRendersEqualWithInstant(String expected, Instant date, Instant compareTo) throws IOException {
         assertIsBeforeRendersEqual(expected, date, compareTo, this::getJSRuntimeDateFromInstant);
+    }
+
+    private void assertIsBeforeRendersEqualWithInstantEpoch(String expected, Instant date, Instant compareTo) throws IOException {
+        assertIsBeforeRendersEqual(expected, date.toEpochMilli(), compareTo.toEpochMilli(), (obj, runtime) -> obj);
     }
 
     private void assertIsBeforeRendersEqualWithDateTime(String expected, OffsetDateTime date, OffsetDateTime compareTo) throws IOException {

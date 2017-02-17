@@ -1,46 +1,36 @@
 package org.slieb.soy.plugins.soyfunctions.date.functions;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.template.soy.data.SoyValue;
 import com.google.template.soy.data.restricted.BooleanData;
 import com.google.template.soy.jssrc.restricted.JsExpr;
-import com.google.template.soy.jssrc.restricted.SoyLibraryAssistedJsSrcFunction;
-import org.slieb.soy.plugins.soyfunctions.date.models.SoyDate;
-import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyFunction;
 
-import java.util.Collections;
+import java.time.Instant;
 import java.util.List;
 
-import static org.slieb.soy.plugins.soyfunctions.date.utils.JsExprDateUtils.*;
+import static java.util.Collections.singleton;
+import static org.slieb.soy.plugins.soyfunctions.date.utils.JsExprDateUtils.compareDatesExpr;
 import static org.slieb.soy.plugins.soyfunctions.internal.SoyFunctionsJSExprUtils.inlineStatements;
 import static org.slieb.soy.plugins.soyfunctions.internal.SoyFunctionsJSExprUtils.jsExpr;
 
-public class IsBeforeSoyFunction extends AbstractSoyFunction<BooleanData> implements SoyLibraryAssistedJsSrcFunction {
+public class IsBeforeSoyFunction extends AbstractSoyDateFunction<BooleanData> {
 
     public IsBeforeSoyFunction() {
-        super("isBefore", Collections.singleton(2));
+        super("isBefore", singleton(2));
     }
 
     @Override
     public JsExpr computeForJsSrc(final List<JsExpr> list) {
-        final JsExpr current = list.get(0);
-        final JsExpr compareTo = list.get(1);
-        final JsExpr currentAssertion = assertDateLike(current, "First argument passed to isBefore(date, compareTo) is not a DateLike object");
-        final JsExpr compareToAssertion = assertDateLike(compareTo, "Second argument passed to isBefore(date, compareTo) is not a DateLike object");
-        final String compareResult = compareDatesExpr(current, compareTo).getText();
-        final JsExpr comparisonExpression = jsExpr(String.format("%s < 0", compareResult));
-        return inlineStatements(currentAssertion, compareToAssertion, comparisonExpression);
+        final JsExpr currentExpr = getInstantExpr(list.get(0), badArgumentMessage());
+        final JsExpr compareToExpr = getInstantExpr(list.get(1), badArgumentMessage());
+        final JsExpr compareResult = compareDatesExpr(currentExpr, compareToExpr);
+        final JsExpr comparisonExpression = jsExpr(String.format("%s < 0", compareResult.getText()));
+        return inlineStatements(currentExpr, compareToExpr, comparisonExpression);
     }
 
     @Override
     public BooleanData computeForJava(final List<SoyValue> list) {
-        final SoyDate current = SoyDate.class.cast(list.get(0));
-        final SoyDate compareTo = SoyDate.class.cast(list.get(1));
-        return BooleanData.forValue(current.getInstant().isBefore(compareTo.getInstant()));
-    }
-
-    @Override
-    public ImmutableSet<String> getRequiredJsLibNames() {
-        return ImmutableSet.copyOf(DATE_LIBS);
+        final Instant currentInstant = getInstant(list.get(0), badArgumentMessage());
+        final Instant compareToInstant = getInstant(list.get(1), badArgumentMessage());
+        return BooleanData.forValue(currentInstant.isBefore(compareToInstant));
     }
 }
