@@ -39,13 +39,7 @@ public class SoyFunctionsIntegrationTest extends SoyFunctionsIntegrationBaseTest
         assertEquals(expected, render("templates.integration.parseFloat", data));
     }
 
-    @Test
-    @Ignore
-    public void testPrintDate() {
-        String expected = "expected!";
-        Map<String, Object> data = Maps.newHashMap();
-        assertEquals(expected, render("templates.integration.printDate", data));
-    }
+
 
 
 

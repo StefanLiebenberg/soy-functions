@@ -4,14 +4,14 @@ import com.google.template.soy.data.SoyValue;
 import com.google.template.soy.data.restricted.IntegerData;
 import com.google.template.soy.jssrc.restricted.JsExpr;
 import com.google.template.soy.shared.restricted.SoyPureFunction;
-import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyFunction;
+import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyPureFunction;
 
 import java.util.List;
 
 import static java.util.Collections.singleton;
 
 @SoyPureFunction
-public class StringLengthSoyFunction extends AbstractSoyFunction.AbstractSoyPureFunction {
+public class StringLengthSoyFunction extends AbstractSoyPureFunction {
 
     public StringLengthSoyFunction() {
         super("strLength", singleton(1));

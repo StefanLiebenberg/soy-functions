@@ -4,7 +4,7 @@ import com.google.template.soy.data.SoyValue;
 import com.google.template.soy.data.restricted.StringData;
 import com.google.template.soy.jssrc.restricted.JsExpr;
 import com.google.template.soy.shared.restricted.SoyPureFunction;
-import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyFunction;
+import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyPureFunction;
 
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +14,7 @@ import static com.google.template.soy.jssrc.restricted.JsExprUtils.maybeWrapAsSa
 import static java.lang.Integer.MAX_VALUE;
 
 @SoyPureFunction
-public class SubstringSoyFunction extends AbstractSoyFunction.AbstractSoyPureFunction {
+public class SubstringSoyFunction extends AbstractSoyPureFunction {
 
     private static final String SUBSTRING = "%s.substring(%s, %s)";
 

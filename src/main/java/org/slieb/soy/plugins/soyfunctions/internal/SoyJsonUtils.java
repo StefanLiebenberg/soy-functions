@@ -79,7 +79,7 @@ public class SoyJsonUtils {
         while (iterator.hasNext()) {
             SoyValue key = iterator.next();
             stringBuilder.append("\"").append(key.coerceToString()).append("\":")
-                         .append(toJson(dict.getItem(key)).getContent());
+                    .append(toJson(dict.getItem(key)).getContent());
             if (iterator.hasNext()) {
                 stringBuilder.append(", ");
             }

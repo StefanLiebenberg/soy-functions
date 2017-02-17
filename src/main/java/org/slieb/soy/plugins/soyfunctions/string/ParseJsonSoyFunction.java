@@ -28,14 +28,14 @@ public class ParseJsonSoyFunction extends AbstractSoyFunction<SoyValue> implemen
     }
 
     @Override
-    public SoyValue computeForJava(final List<SoyValue> list) {
-        return soyJsonUtil.fromString(list.get(0).coerceToString());
-    }
-
-    @Override
     public JsExpr computeForJsSrc(final List<JsExpr> args) {
         final JsExpr jsExpr = args.get(0);
         return new JsExpr(String.format(PARSE_JSON, jsExpr.getText()), Integer.MAX_VALUE);
+    }
+
+    @Override
+    public SoyValue computeForJava(final List<SoyValue> list) {
+        return soyJsonUtil.fromString(list.get(0).coerceToString());
     }
 
     @Override

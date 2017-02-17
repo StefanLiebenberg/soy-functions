@@ -1,21 +1,31 @@
-package org.slieb.soy.plugins.soyfunctions.models;
+package org.slieb.soy.plugins.soyfunctions.date.models;
 
 import com.google.template.soy.data.SoyAbstractValue;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.Objects;
 
-public class InstantSoyValue extends SoyAbstractValue {
+import static com.google.common.base.Preconditions.checkNotNull;
 
-    public Instant getInstant() {
-        return instant;
-    }
+/**
+ * This class represents a DateTime instant in soy.
+ */
+public class InstantSoyValue extends SoyAbstractValue implements SoyDate {
 
     private final Instant instant;
 
-    public InstantSoyValue(final Instant instant) {this.instant = instant;}
+    public InstantSoyValue(@Nonnull final Instant instant) {
+        this.instant = checkNotNull(instant);
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    @Nonnull
+    public Instant getInstant() {
+        return instant;
+    }
 
     @Override
     public boolean coerceToBoolean() {
@@ -28,30 +38,21 @@ public class InstantSoyValue extends SoyAbstractValue {
     }
 
     @Override
-    public long longValue() {
-        return instant.toEpochMilli();
-    }
-
-    /**
-     * Renders this value to the given appendable.
-     * <p>
-     * <p>This should behave identically to {@code appendable.append(coerceToString())} but is
-     * provided separately to allow more incremental approaches.
-     *
-     * @param appendable The appendable to render to.
-     * @throws IOException
-     */
-    @Override
     public void render(@Nonnull final Appendable appendable) throws IOException {
         appendable.append(coerceToString());
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(@Nullable final Object o) {
         if (this == o) { return true; }
         if (o == null || getClass() != o.getClass()) { return false; }
         final InstantSoyValue that = (InstantSoyValue) o;
         return Objects.equals(instant, that.instant);
+    }
+
+    @Override
+    public long longValue() {
+        return instant.toEpochMilli();
     }
 
     @Override

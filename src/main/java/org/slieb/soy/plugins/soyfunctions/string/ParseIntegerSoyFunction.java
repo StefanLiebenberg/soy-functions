@@ -4,7 +4,7 @@ import com.google.template.soy.data.SoyValue;
 import com.google.template.soy.data.restricted.IntegerData;
 import com.google.template.soy.jssrc.restricted.JsExpr;
 import com.google.template.soy.shared.restricted.SoyPureFunction;
-import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyFunction;
+import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyPureFunction;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import static com.google.common.collect.Sets.newHashSet;
 import static java.util.Collections.unmodifiableSet;
 
 @SoyPureFunction
-public class ParseIntegerSoyFunction extends AbstractSoyFunction.AbstractSoyPureFunction {
+public class ParseIntegerSoyFunction extends AbstractSoyPureFunction {
 
     public ParseIntegerSoyFunction() {
         super("parseInt", unmodifiableSet(newHashSet(1, 2)));

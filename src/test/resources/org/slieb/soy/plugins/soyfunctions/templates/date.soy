@@ -2,6 +2,45 @@
 
 
 /**
+ * @param Date
+ * @param CompareTo
+ */
+{template .isAfter}
+  {isAfter($Date, $CompareTo)}
+{/template}
+
+
+/**
+ * @param Date
+ * @param CompareTo
+ */
+{template .isBefore}
+  {isBefore($Date, $CompareTo)}
+{/template}
+
+
+/**
+ * This should be equivalent to Instant.now()
+ */
+{template .toInstant}
+  {printTimestamp(toInstant())}
+{/template}
+
+
+
+/**
+ * @param Timestamp
+ */
+{template .toInstantWithTimestamp}
+  {printTimestamp(toInstant($Timestamp))}
+{/template}
+
+
+
+
+
+
+/**
  * @param Value
  */
 {template .toDateTime}

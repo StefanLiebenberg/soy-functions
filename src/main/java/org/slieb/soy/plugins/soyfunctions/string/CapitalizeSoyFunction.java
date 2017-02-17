@@ -6,7 +6,7 @@ import com.google.template.soy.data.restricted.StringData;
 import com.google.template.soy.jssrc.restricted.JsExpr;
 import com.google.template.soy.jssrc.restricted.SoyLibraryAssistedJsSrcFunction;
 import com.google.template.soy.shared.restricted.SoyPureFunction;
-import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyFunction;
+import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyPureFunction;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import static java.lang.Integer.MAX_VALUE;
 import static java.util.Collections.singleton;
 
 @SoyPureFunction
-public class CapitalizeSoyFunction extends AbstractSoyFunction.AbstractSoyPureFunction
+public class CapitalizeSoyFunction extends AbstractSoyPureFunction
         implements SoyLibraryAssistedJsSrcFunction {
 
     private static final String CAPITALIZE = "goog.string.capitalize(%s)";

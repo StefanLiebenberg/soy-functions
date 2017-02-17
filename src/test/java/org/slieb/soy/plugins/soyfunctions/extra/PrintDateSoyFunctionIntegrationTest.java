@@ -1,6 +1,7 @@
 package org.slieb.soy.plugins.soyfunctions.extra;
 
 import com.google.common.collect.Maps;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slieb.soy.plugins.soyfunctions.SoyFunctionsIntegrationBaseTest;
 
@@ -20,12 +21,14 @@ public class PrintDateSoyFunctionIntegrationTest extends SoyFunctionsIntegration
                     .toInstant();
 
     @Test
+    @Ignore
     public void shouldPrintInstant() throws Exception {
         assertEquals("2016-01-01 12:01:00", render("templates.date.printDate", singletonMap("Date", INSTANT)));
         assertEquals("2016-01-01 12:01:00", renderWithJs("templates.date.printDate", toNativeObjectFromMap(singletonMap("Date", INSTANT))));
     }
 
     @Test
+    @Ignore
     public void shouldPrintInstantWithFormatAndZoneOffset() throws Exception {
         Map<String, Object> data = Maps.newHashMap();
         data.put("Date", INSTANT.toEpochMilli());

@@ -9,12 +9,12 @@ import com.google.template.soy.jssrc.restricted.JsExprUtils;
 import com.google.template.soy.jssrc.restricted.SoyJsSrcFunction;
 import com.google.template.soy.shared.restricted.SoyFunction;
 import com.google.template.soy.shared.restricted.SoyJavaFunction;
-import org.slieb.soy.plugins.soyfunctions.models.ImportableNode;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+@Deprecated
 public class StyleSoyFunction implements SoyFunction, SoyJavaFunction, SoyJsSrcFunction {
 
     @Override
@@ -28,11 +28,7 @@ public class StyleSoyFunction implements SoyFunction, SoyJavaFunction, SoyJsSrcF
 
     @Override
     public SoyValue computeForJava(final List<SoyValue> args) {
-
         final SoyValue soyValue = args.get(0);
-        if (soyValue instanceof ImportableNode) {
-            return getSanitizedLinkWithTrustedResourceUrl(((ImportableNode) soyValue).getImportResourceUrl());
-        }
         if (soyValue instanceof SanitizedContent) {
             SanitizedContent sanitizedContent = (SanitizedContent) soyValue;
             switch (sanitizedContent.getContentKind()) {

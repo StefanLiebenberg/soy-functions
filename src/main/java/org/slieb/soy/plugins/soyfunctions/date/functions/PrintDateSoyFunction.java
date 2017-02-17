@@ -1,15 +1,18 @@
-package org.slieb.soy.plugins.soyfunctions.extra;
+package org.slieb.soy.plugins.soyfunctions.date.functions;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.name.Named;
 import com.google.template.soy.data.SanitizedContent;
 import com.google.template.soy.data.SoyValue;
 import com.google.template.soy.data.restricted.IntegerData;
 import com.google.template.soy.data.restricted.StringData;
 import com.google.template.soy.jssrc.restricted.JsExpr;
 import com.google.template.soy.jssrc.restricted.SoyLibraryAssistedJsSrcFunction;
-import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyFunction;
-import org.slieb.soy.plugins.soyfunctions.models.InstantSoyValue;
+import org.slieb.soy.plugins.soyfunctions.date.SoyDateFunctionsModule;
+import org.slieb.soy.plugins.soyfunctions.date.models.InstantSoyValue;
+import org.slieb.soy.plugins.soyfunctions.internal.AbstractSanitizedSoyFunction;
 
 import java.time.Instant;
 import java.time.ZoneOffset;
@@ -22,7 +25,9 @@ import static com.google.template.soy.data.SanitizedContents.unsanitizedText;
 import static com.google.template.soy.jssrc.restricted.JsExprUtils.maybeWrapAsSanitizedContent;
 import static java.lang.Integer.MAX_VALUE;
 
-public class PrintDateSoyFunction extends AbstractSoyFunction.AbstractSanitizedSoyFunction implements SoyLibraryAssistedJsSrcFunction {
+public class PrintDateSoyFunction extends AbstractSanitizedSoyFunction implements SoyLibraryAssistedJsSrcFunction {
+
+    private final Provider<ZoneOffset> defaultZoneProvider;
 
     private static final String FORMAT_DATETIME = "new goog.i18n.DateTimeFormat(%s).format(%s, %s)";
 
@@ -39,8 +44,9 @@ public class PrintDateSoyFunction extends AbstractSoyFunction.AbstractSanitizedS
             "(new Date(time)); })(%s)";
 
     @Inject
-    public PrintDateSoyFunction() {
+    public PrintDateSoyFunction(@Named(SoyDateFunctionsModule.DEFAULT_OFFSET) final Provider<ZoneOffset> defaultZoneProvider) {
         super("printDate", newHashSet(1, 2, 3));
+        this.defaultZoneProvider = defaultZoneProvider;
     }
 
     private <T> T getDateArg(List<T> args) {

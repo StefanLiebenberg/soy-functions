@@ -36,7 +36,7 @@ public class ScriptSoyFunctionIntegrationTest extends SoyFunctionsIntegrationBas
     @Test
     @Ignore
     public void printScript() throws IOException {
-        try (EnvJSRuntime envJSRuntime = getEnvJs()) {
+        try (EnvJSRuntime envJSRuntime = getRuntime()) {
             Assert.assertEquals(String.format(LINK_HTML, "google.com/script.min.js"),
                                 envJSRuntime.execute("templates.html.script({Value: 'google.com/script/.min.js' })"));
         }
@@ -45,7 +45,7 @@ public class ScriptSoyFunctionIntegrationTest extends SoyFunctionsIntegrationBas
     @Test
     @Ignore
     public void printNaturalScript() throws IOException {
-        try (EnvJSRuntime envJSRuntime = getEnvJs()) {
+        try (EnvJSRuntime envJSRuntime = getRuntime()) {
             System.out.println(envJSRuntime.execute("templates.html.naturalScript({Value: 'google.com' }).getContent()"));
         }
     }
@@ -53,7 +53,7 @@ public class ScriptSoyFunctionIntegrationTest extends SoyFunctionsIntegrationBas
     @Test
     @Ignore
     public void printScriptWithToUrl() throws IOException {
-        try (EnvJSRuntime envJSRuntime = getEnvJs()) {
+        try (EnvJSRuntime envJSRuntime = getRuntime()) {
             System.out.println(envJSRuntime.execute("templates.html.scriptWithToUrl({Value: 'google.com' }).getContent()"));
         }
     }

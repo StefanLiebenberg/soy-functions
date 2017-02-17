@@ -1,6 +1,10 @@
 package org.slieb.soy.plugins.soyfunctions;
 
+import com.google.common.collect.Maps;
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Module;
 import com.google.template.soy.SoyFileSet;
 import com.google.template.soy.SoyModule;
 import com.google.template.soy.data.SanitizedContent;
@@ -10,11 +14,13 @@ import com.google.template.soy.tofu.SoyTofu;
 import org.apache.commons.io.IOUtils;
 import org.mozilla.javascript.*;
 import org.slieb.runtimes.rhino.EnvJSRuntime;
+import org.slieb.runtimes.rhino.RhinoRuntime;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.time.Instant;
 import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import static org.junit.Assert.assertEquals;
 
@@ -40,9 +46,22 @@ public class SoyFunctionsIntegrationBaseTest {
 
     private SoyFileSet getFileSet(final SoyFileSet fileset) {return fileset;}
 
+    protected Module createModule() {
+        return new AbstractModule() {
+            @Override
+            protected void configure() {
+                install(new SoyModule());
+                install(new SoyFunctionsModule());
+            }
+        };
+    }
+
+    protected Injector getInjector() {
+        return Guice.createInjector(createModule());
+    }
+
     private SoyFileSet.Builder getBuilder() {
-        return Guice.createInjector(new SoyModule(),
-                                    new SoyFunctionsModule())
+        return getInjector()
                 .getInstance(SoyFileSet.Builder.class);
     }
 
@@ -55,13 +74,13 @@ public class SoyFunctionsIntegrationBaseTest {
     }
 
     protected String renderWithJs(final String templateName, final NativeObject data) throws IOException {
-        try (EnvJSRuntime envJSRuntime = getEnvJs()) {
+        try (EnvJSRuntime envJSRuntime = getRuntime()) {
             envJSRuntime.putJavaObject("obj", data);
             return (String) envJSRuntime.execute(templateName + "(obj).getContent();");
         }
     }
 
-    protected EnvJSRuntime getEnvJs() throws IOException {
+    protected EnvJSRuntime getRuntime() throws IOException {
         EnvJSRuntime envJSRuntime = new EnvJSRuntime();
         envJSRuntime.initialize();
         envJSRuntime.putJavaObject("CLOSURE_IMPORT_SCRIPT", new Importer());
@@ -72,7 +91,20 @@ public class SoyFunctionsIntegrationBaseTest {
         jsSrcOptions.setShouldProvideRequireJsFunctions(true);
 
         getFileSet().compileToJsSrc(jsSrcOptions, SoyMsgBundle.EMPTY)
-                .forEach(envJSRuntime::execute);
+                .forEach((command) -> {
+                    try {
+                        envJSRuntime.execute(command);
+                    } catch (RuntimeException evalException) {
+
+                        try (Writer writer = new FileWriter(new File("template.js"))) {
+                            writer.write(command);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        throw new RuntimeException(command, evalException);
+                    }
+                });
 
         return envJSRuntime;
     }
@@ -98,17 +130,25 @@ public class SoyFunctionsIntegrationBaseTest {
         return obj;
     }
 
-    protected NativeObject toNativeObjectFromMap(Map<String, Object> map) {
-        NativeObject nativeObject = new NativeObject();
-        map.forEach((key, value) -> nativeObject.defineProperty(key, toNative(value), NativeObject.READONLY));
-        return nativeObject;
-    }
-
     protected void assertRenders(String expected, String templateName, Map<String, Object> data) throws IOException {
         String tofuResult = renderTofu(templateName, data);
         String jsResult = renderJs(templateName, data);
         assertEquals(expected, tofuResult);
         assertEquals(expected, jsResult);
+    }
+
+    protected void assertRenderEquals(final String expected,
+                                      final String templateNamed,
+                                      final Consumer<Map<String, Object>> tofuDataConsumer,
+                                      final BiConsumer<NativeObject, RhinoRuntime> jsDataConsumer) throws IOException {
+        assertEquals(expected, renderTofu(templateNamed, getTofuData(tofuDataConsumer)));
+        assertEquals(expected, renderJs(templateNamed, jsDataConsumer));
+    }
+
+    private Map<String, Object> getTofuData(final Consumer<Map<String, Object>> tofuDataConsumer) {
+        Map<String, Object> tofuMap = Maps.newConcurrentMap();
+        tofuDataConsumer.accept(tofuMap);
+        return tofuMap;
     }
 
     private String renderTofu(final String templateName, final Map<String, Object> data) {
@@ -119,13 +159,32 @@ public class SoyFunctionsIntegrationBaseTest {
     }
 
     private String renderJs(String templateName, Map<String, Object> data) throws IOException {
-        try (EnvJSRuntime runtime = getEnvJs()) {
+        try (EnvJSRuntime runtime = getRuntime()) {
             runtime.putJavaObject("obj", toNativeObjectFromMap(data));
             return runtime.execute(String.format("%s(obj).getContent();", templateName)).toString();
         }
     }
 
-    class Importer extends BaseFunction implements Callable {
+    private String renderJs(String templateName, BiConsumer<NativeObject, RhinoRuntime> dataBuilder) throws IOException {
+        try (EnvJSRuntime runtime = getRuntime()) {
+            runtime.putJavaObject("obj", toNativeObjectFromMap(dataBuilder, runtime));
+            return runtime.execute(String.format("%s(obj).getContent();", templateName)).toString();
+        }
+    }
+
+    private Object toNativeObjectFromMap(final BiConsumer<NativeObject, RhinoRuntime> dataBuilder, final EnvJSRuntime runtime) {
+        final NativeObject nativeObject = new NativeObject();
+        dataBuilder.accept(nativeObject, runtime);
+        return nativeObject;
+    }
+
+    protected NativeObject toNativeObjectFromMap(Map<String, Object> map) {
+        NativeObject nativeObject = new NativeObject();
+        map.forEach((key, value) -> nativeObject.defineProperty(key, toNative(value), NativeObject.READONLY));
+        return nativeObject;
+    }
+
+    private class Importer extends BaseFunction implements Callable {
 
         @Override
         public Object call(final Context cx, final Scriptable scope, final Scriptable thisObj, final Object[] args) {
@@ -137,7 +196,7 @@ public class SoyFunctionsIntegrationBaseTest {
                 return true;
             } catch (IOException e) {
                 cx.evaluateString(scope, "console.warn('Error while importing " +
-                        filename + "')", "inline", 1, null);
+                        filename + "')", "inlineStatements", 1, null);
                 e.printStackTrace();
                 throw new Error(e.getMessage(), e);
             }
