@@ -12,6 +12,7 @@ import java.util.Iterator;
 
 import static com.google.template.soy.data.SanitizedContent.ContentKind.JS;
 import static com.google.template.soy.data.SanitizedContents.fromSafeScript;
+import static com.google.template.soy.data.UnsafeSanitizedContentOrdainer.ordainAsSafe;
 
 public class SoyJsonUtils {
 
@@ -32,11 +33,11 @@ public class SoyJsonUtils {
     public SanitizedContent toJson(SoyValue soyValue) {
 
         if (soyValue instanceof StringData) {
-            return UnsafeSanitizedContentOrdainer.ordainAsSafe("\"" + soyValue.stringValue() + "\"", JS);
+            return ordainAsSafe("\"" + soyValue.stringValue() + "\"", JS);
         }
 
         if (soyValue instanceof NumberData || soyValue instanceof BooleanData) {
-            return UnsafeSanitizedContentOrdainer.ordainAsSafe(soyValue.toString(), JS);
+            return ordainAsSafe(soyValue.toString(), JS);
         }
 
         if (soyValue instanceof SoyDict) {

@@ -1,0 +1,18 @@
+{namespace templates.string}
+
+
+/**
+ * @param String
+ * @param Pattern
+ */
+{template .matches}
+  {matches($String, $Pattern)}
+{/template}
+
+
+/**
+ *
+ */
+{template .matchesWithStringLiterals}
+  {matches('some-string', '[A-z\\-]+')}
+{/template}

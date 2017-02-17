@@ -50,15 +50,15 @@ public class PrintDateSoyFunction extends AbstractSanitizedSoyFunction implement
     }
 
     private <T> T getDateArg(List<T> args) {
-        return getOptional(args, 1).orElseThrow(() -> new RuntimeException("No date argument passed in."));
+        return getOptional(args, 0).orElseThrow(() -> new RuntimeException("No date argument passed in."));
     }
 
     private <T> T getPatternArg(List<T> args, T defaultValue) {
-        return getOptional(args, 2).orElse(defaultValue);
+        return getOptional(args, 1).orElse(defaultValue);
     }
 
     private <T> T getOffsetArg(List<T> args, T defaultValue) {
-        return getOptional(args, 3).orElse(defaultValue);
+        return getOptional(args, 2).orElse(defaultValue);
     }
 
     private Instant getInstant(final SoyValue dateValue) {

@@ -26,5 +26,6 @@ public class StringsSoyFunctionsModule extends AbstractModule {
         pluginBinder.addBinding().to(SubstringSoyFunction.class);
         pluginBinder.addBinding().to(CapitalizeSoyFunction.class);
         pluginBinder.addBinding().to(ToFixedSoyFunction.class);
+        pluginBinder.addBinding().to(MatchesSoyFunction.class);
     }
 }

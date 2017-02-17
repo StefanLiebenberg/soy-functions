@@ -18,6 +18,7 @@ import org.slieb.runtimes.rhino.RhinoRuntime;
 
 import java.io.*;
 import java.time.Instant;
+import java.util.Collections;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -26,22 +27,29 @@ import static org.junit.Assert.assertEquals;
 
 public class SoyFunctionsIntegrationBaseTest {
 
-    public static final String ROOT = "/META-INF/resources/webjars/google-closure-library/20170124.0.0";
+    private static final String ROOT = "/META-INF/resources/webjars/google-closure-library/20170124.0.0";
 
-    SoyTofu getTofu() {
+    private SoyTofu getTofu() {
         return getFileSet().compileToTofu();
     }
 
-    SoyFileSet getFileSet() {
-        final SoyFileSet.Builder builder = getBuilder();
-        final Class<?> klass = getClass();
-        final SoyFileSet fileset = builder
-                .add(klass.getResource("/org/slieb/soy/plugins/soyfunctions/templates/integration.soy"))
-                .add(klass.getResource("/org/slieb/soy/plugins/soyfunctions/templates/style.soy"))
-                .add(klass.getResource("/org/slieb/soy/plugins/soyfunctions/templates/date.soy"))
-                .build();
+    private SoyFileSet fileSet;
 
-        return getFileSet(fileset);
+    private SoyFileSet getFileSet() {
+
+        if (fileSet == null) {
+            final SoyFileSet.Builder builder = getBuilder();
+            final Class<?> klass = getClass();
+            final SoyFileSet fileset = builder
+                    .add(klass.getResource("/org/slieb/soy/plugins/soyfunctions/templates/integration.soy"))
+                    .add(klass.getResource("/org/slieb/soy/plugins/soyfunctions/templates/style.soy"))
+                    .add(klass.getResource("/org/slieb/soy/plugins/soyfunctions/templates/date.soy"))
+                    .add(klass.getResource("/org/slieb/soy/plugins/soyfunctions/templates/string.soy"))
+                    .build();
+
+            fileSet = getFileSet(fileset);
+        }
+        return fileSet;
     }
 
     private SoyFileSet getFileSet(final SoyFileSet fileset) {return fileset;}
@@ -56,7 +64,7 @@ public class SoyFunctionsIntegrationBaseTest {
         };
     }
 
-    protected Injector getInjector() {
+    private Injector getInjector() {
         return Guice.createInjector(createModule());
     }
 
@@ -118,9 +126,11 @@ public class SoyFunctionsIntegrationBaseTest {
         return envJSRuntime.execute(command, path);
     }
 
-    protected Object toNative(Object obj) {
-        if (obj instanceof Map) {
-            return toNativeObjectFromMap((Map<String, Object>) obj);
+    private final Map<String, Object> castMap = Collections.emptyMap();
+
+    private Object toNative(Object obj) {
+        if (castMap.getClass().isInstance(obj)) {
+            return toNativeObjectFromMap(castMap.getClass().cast(obj));
         }
 
         if (obj instanceof Instant) {
@@ -141,13 +151,15 @@ public class SoyFunctionsIntegrationBaseTest {
                                       final String templateNamed,
                                       final Consumer<Map<String, Object>> tofuDataConsumer,
                                       final BiConsumer<NativeObject, RhinoRuntime> jsDataConsumer) throws IOException {
-        assertEquals(expected, renderTofu(templateNamed, getTofuData(tofuDataConsumer)));
-        assertEquals(expected, renderJs(templateNamed, jsDataConsumer));
+        assertEquals("tofu should match", expected, renderTofu(templateNamed, getTofuData(tofuDataConsumer)));
+        assertEquals("js should match", expected, renderJs(templateNamed, jsDataConsumer));
     }
 
     private Map<String, Object> getTofuData(final Consumer<Map<String, Object>> tofuDataConsumer) {
         Map<String, Object> tofuMap = Maps.newConcurrentMap();
-        tofuDataConsumer.accept(tofuMap);
+        if (tofuDataConsumer != null) {
+            tofuDataConsumer.accept(tofuMap);
+        }
         return tofuMap;
     }
 
@@ -174,7 +186,9 @@ public class SoyFunctionsIntegrationBaseTest {
 
     private Object toNativeObjectFromMap(final BiConsumer<NativeObject, RhinoRuntime> dataBuilder, final EnvJSRuntime runtime) {
         final NativeObject nativeObject = new NativeObject();
-        dataBuilder.accept(nativeObject, runtime);
+        if (dataBuilder != null) {
+            dataBuilder.accept(nativeObject, runtime);
+        }
         return nativeObject;
     }
 

@@ -28,8 +28,8 @@ public abstract class AbstractSoyFunction<R extends SoyValue> implements SoyFunc
     }
 
     protected <T> Optional<T> getOptional(List<T> t, int argNr) {
-        if (t.size() >= argNr) {
-            return Optional.of(t.get(argNr - 1));
+        if (t.size() > argNr) {
+            return Optional.of(t.get(argNr));
         } else {
             return Optional.empty();
         }

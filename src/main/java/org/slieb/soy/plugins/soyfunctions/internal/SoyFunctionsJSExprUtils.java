@@ -29,6 +29,16 @@ public class SoyFunctionsJSExprUtils {
         return wrap(join(", ", statements));
     }
 
+    private static boolean DEBUG = false;
+
+    public static JsExpr debugLog(String prefix, JsExpr expression) {
+        if (DEBUG) {
+            return inlineStatements(callFunction("console.log", stringLiteral(prefix), expression), expression);
+        } else {
+            return expression;
+        }
+    }
+
     public static JsExpr and(JsExpr... arguments) {
         return join("&&", arguments);
     }
@@ -42,7 +52,7 @@ public class SoyFunctionsJSExprUtils {
     }
 
     public static JsExpr callOn(JsExpr object, String functionName, JsExpr... objects) {
-        return jsExpr(object.getText() + "." + callFunction(functionName, objects));
+        return jsExpr(wrap(object).getText() + "." + callFunction(functionName, objects).getText());
     }
 
     public static JsExpr newCall(final String functionName, final JsExpr... objects) {
