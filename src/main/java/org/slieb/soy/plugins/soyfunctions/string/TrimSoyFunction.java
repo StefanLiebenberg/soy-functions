@@ -10,17 +10,14 @@ import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyPureFunction;
 
 import java.util.List;
 
-import static com.google.template.soy.data.SanitizedContent.ContentKind.TEXT;
-import static com.google.template.soy.jssrc.restricted.JsExprUtils.maybeWrapAsSanitizedContent;
-import static java.lang.Integer.MAX_VALUE;
 import static java.util.Collections.singleton;
+import static org.slieb.soy.plugins.soyfunctions.utils.Expressions.callFunction;
 
+@SuppressWarnings("WeakerAccess")
 @SoyPureFunction
 public class TrimSoyFunction extends AbstractSoyPureFunction implements SoyLibraryAssistedJsSrcFunction {
 
     private static final ImmutableSet<String> REQUIRED_LIBS = ImmutableSet.of("goog.string");
-
-    private static final String TRIM_STRING = "goog.string.trim(%s)";
 
     public TrimSoyFunction() {
         super("trim", singleton(1));
@@ -28,14 +25,12 @@ public class TrimSoyFunction extends AbstractSoyPureFunction implements SoyLibra
 
     @Override
     public JsExpr computeForJsSrc(final List<JsExpr> list) {
-        final JsExpr jsExpr = list.get(0);
-        final String expr = String.format(TRIM_STRING, jsExpr.getText());
-        return maybeWrapAsSanitizedContent(TEXT, new JsExpr(expr, MAX_VALUE));
+        return callFunction("goog.string.trim", list.get(0));
     }
 
     @Override
     public StringData computeForJava(final List<SoyValue> list) {
-        return StringData.forValue(list.get(0).stringValue().trim());
+        return StringData.forValue(list.get(0).coerceToString().trim());
     }
 
     @Override

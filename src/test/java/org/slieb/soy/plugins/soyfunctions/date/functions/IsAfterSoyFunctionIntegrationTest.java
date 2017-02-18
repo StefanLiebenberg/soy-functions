@@ -18,6 +18,14 @@ import static org.mozilla.javascript.ScriptableObject.READONLY;
 public class IsAfterSoyFunctionIntegrationTest extends DateSoyFunctionsIntegrationBaseTest {
 
     @Test
+    public void shouldRenderPureFunction() throws IOException {
+//        assertRenderEquals("false", "templates.date.isBeforeAndAfterString", null, null);
+//        assertRenderEquals("true", "templates.date.isBeforeOrAfterString", null, null);
+//        assertRenderEquals("false", "templates.date.isBeforeAndAfterNumber", null, null);
+        assertRenderEquals("true", "templates.date.isBeforeOrAfterNumber", null, null);
+    }
+
+    @Test
     public void shouldCalculateIsAfterForInstant() throws Exception {
         final Instant date = Instant.now();
         assertIsAfterRendersEqualWithInstant("true", date, date.minusSeconds(1));

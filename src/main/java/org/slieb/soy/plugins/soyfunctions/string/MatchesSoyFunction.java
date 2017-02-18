@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.util.Collections.singleton;
-import static org.slieb.soy.plugins.soyfunctions.internal.SoyFunctionsJSExprUtils.*;
+import static org.slieb.soy.plugins.soyfunctions.utils.Expressions.*;
 
 @SuppressWarnings("WeakerAccess")
 @SoyPureFunction
@@ -23,9 +23,9 @@ public class MatchesSoyFunction extends AbstractSoyPureFunction {
 
     @Override
     public JsExpr computeForJsSrc(final List<JsExpr> list) {
-        final JsExpr string = debugLog("string", callFunction("String", list.get(0)));
-        final JsExpr pattern = debugLog("pattern", newCall("RegExp", list.get(1)));
-        return debugLog("result", callOn(pattern, "test", string));
+        final JsExpr toString = callFunction("String", list.get(0));
+        final JsExpr newRegExp = newCall("RegExp", list.get(1));
+        return callOn(newRegExp, "test", toString);
     }
 
     @Override

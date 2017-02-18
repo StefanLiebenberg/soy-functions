@@ -18,6 +18,35 @@
   {isBefore($Date, $CompareTo)}
 {/template}
 
+/**
+ * This will always return false.
+ */
+{template .isBeforeAndAfterString}
+  {isBefore('1487367930349', '1487367979650') and isAfter('1487367930349', '1487367979650')}
+{/template}
+
+/**
+ * This will always return true.
+ */
+{template .isBeforeOrAfterString}
+  {isBefore('1487367930349', '1487367979650') or isAfter('1487367930349', '1487367979650')}
+{/template}
+
+
+/**
+ * This will always return false.
+ */
+{template .isBeforeAndAfterNumber}
+  {isBefore(parseInt('1487367930349'), parseInt('1487367979650')) and isAfter(parseInt('1487367930349'), parseInt('1487367979650'))}
+{/template}
+
+/**
+ * This will always return true.
+ */
+{template .isBeforeOrAfterNumber}
+  {isBefore(parseInt('1487367930349'), parseInt('1487367979650')) or isAfter(parseInt('1487367930349'), parseInt('1487367979650'))}
+{/template}
+
 
 /**
  * This should be equivalent to Instant.now()

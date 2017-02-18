@@ -15,8 +15,8 @@ import java.util.List;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static org.slieb.soy.plugins.soyfunctions.date.SoyDateFunctionsModule.NOW_INSTANT;
-import static org.slieb.soy.plugins.soyfunctions.internal.SoyFunctionsJSExprUtils.callFunction;
-import static org.slieb.soy.plugins.soyfunctions.internal.SoyFunctionsJSExprUtils.newCall;
+import static org.slieb.soy.plugins.soyfunctions.utils.Expressions.callFunction;
+import static org.slieb.soy.plugins.soyfunctions.utils.Expressions.newCall;
 
 /**
  * The {@code toInstant(value)} produces either a {@link InstantSoyValue} or {@code Date} object.

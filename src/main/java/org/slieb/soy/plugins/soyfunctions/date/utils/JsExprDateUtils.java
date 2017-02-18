@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toSet;
-import static org.slieb.soy.plugins.soyfunctions.internal.SoyFunctionsJSExprUtils.*;
+import static org.slieb.soy.plugins.soyfunctions.utils.Expressions.*;
 
 @SuppressWarnings("WeakerAccess")
 public class JsExprDateUtils {
@@ -30,6 +30,6 @@ public class JsExprDateUtils {
     }
 
     public static JsExpr assertDateLike(final JsExpr current, final String message) {
-        return callFunction("goog.asserts.assert", isDateLike(current), stringLiteral(message));
+        return callFunction("goog.asserts.assert", isDateLike(current), asLiteral(message));
     }
 }

@@ -14,7 +14,7 @@ import static com.google.inject.util.Modules.override;
 import static org.slieb.soy.plugins.soyfunctions.date.SoyDateFunctionsModule.NOW_INSTANT;
 import static org.slieb.soy.plugins.soyfunctions.date.utils.JsExprDateUtils.toDate;
 import static org.slieb.soy.plugins.soyfunctions.date.utils.JsExprDateUtils.toDateTime;
-import static org.slieb.soy.plugins.soyfunctions.internal.SoyFunctionsJSExprUtils.jsExpr;
+import static org.slieb.soy.plugins.soyfunctions.utils.Expressions.expression;
 
 abstract class DateSoyFunctionsIntegrationBaseTest extends SoyFunctionsIntegrationBaseTest {
 
@@ -34,10 +34,10 @@ abstract class DateSoyFunctionsIntegrationBaseTest extends SoyFunctionsIntegrati
     }
 
     Object getJSRuntimeDateFromInstant(final Instant date, final RhinoRuntime runtime) {
-        return runtime.execute(toDate(jsExpr(date.toEpochMilli())).getText());
+        return runtime.execute(toDate(expression(date.toEpochMilli())).getText());
     }
 
     Object getJSRuntimeDateTimeFromOffsetDataTime(final OffsetDateTime date, final RhinoRuntime runtime) {
-        return runtime.execute(toDateTime(jsExpr(date.toInstant().toEpochMilli())).getText());
+        return runtime.execute(toDateTime(expression(date.toInstant().toEpochMilli())).getText());
     }
 }
