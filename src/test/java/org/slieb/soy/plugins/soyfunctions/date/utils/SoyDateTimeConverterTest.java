@@ -21,10 +21,10 @@ import static org.junit.Assert.assertEquals;
 @RunWith(MockitoJUnitRunner.class)
 public class SoyDateTimeConverterTest {
 
-    private SoyDateTimeConverter converter;
-
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     SoyValueConverter soyValueConverter;
+
+    private SoyDateTimeConverter converter;
 
     @Before
     public void setUp() throws Exception {

@@ -19,9 +19,9 @@ public class IsAfterSoyFunctionIntegrationTest extends DateSoyFunctionsIntegrati
 
     @Test
     public void shouldRenderPureFunction() throws IOException {
-//        assertRenderEquals("false", "templates.date.isBeforeAndAfterString", null, null);
-//        assertRenderEquals("true", "templates.date.isBeforeOrAfterString", null, null);
-//        assertRenderEquals("false", "templates.date.isBeforeAndAfterNumber", null, null);
+        //        assertRenderEquals("false", "templates.date.isBeforeAndAfterString", null, null);
+        //        assertRenderEquals("true", "templates.date.isBeforeOrAfterString", null, null);
+        //        assertRenderEquals("false", "templates.date.isBeforeAndAfterNumber", null, null);
         assertRenderEquals("true", "templates.date.isBeforeOrAfterNumber", null, null);
     }
 

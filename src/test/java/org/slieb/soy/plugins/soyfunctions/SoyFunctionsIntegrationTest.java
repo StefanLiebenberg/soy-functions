@@ -2,7 +2,6 @@ package org.slieb.soy.plugins.soyfunctions;
 
 import com.google.common.collect.Maps;
 import com.google.template.soy.data.SanitizedContent;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -39,12 +38,6 @@ public class SoyFunctionsIntegrationTest extends SoyFunctionsIntegrationBaseTest
         assertEquals(expected, render("templates.integration.parseFloat", data));
     }
 
-
-
-
-
-
-
     @Test
     public void testToJson() {
         String expected = "{\"Property\":100}";
@@ -57,8 +50,6 @@ public class SoyFunctionsIntegrationTest extends SoyFunctionsIntegrationBaseTest
                 .setData(data)
                 .render());
     }
-
-
 
     private String doSubstring(final String string, final int start, final int end) {
         Map<String, Object> data = Maps.newHashMap();

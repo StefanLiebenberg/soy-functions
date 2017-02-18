@@ -29,11 +29,13 @@ public class SoyFunctionsIntegrationBaseTest {
 
     private static final String ROOT = "/META-INF/resources/webjars/google-closure-library/20170124.0.0";
 
+    private final Map<String, Object> castMap = Collections.emptyMap();
+
+    private SoyFileSet fileSet;
+
     private SoyTofu getTofu() {
         return getFileSet().compileToTofu();
     }
-
-    private SoyFileSet fileSet;
 
     private SoyFileSet getFileSet() {
 
@@ -126,8 +128,6 @@ public class SoyFunctionsIntegrationBaseTest {
         return envJSRuntime.execute(command, path);
     }
 
-    private final Map<String, Object> castMap = Collections.emptyMap();
-
     private Object toNative(Object obj) {
         if (castMap.getClass().isInstance(obj)) {
             return toNativeObjectFromMap(castMap.getClass().cast(obj));
@@ -152,7 +152,7 @@ public class SoyFunctionsIntegrationBaseTest {
                                       final Consumer<Map<String, Object>> tofuDataConsumer,
                                       final BiConsumer<NativeObject, RhinoRuntime> jsDataConsumer) throws IOException {
         assertEquals("tofu should match", expected, renderTofu(templateNamed, getTofuData(tofuDataConsumer)));
-//        assertEquals("js should match", expected, renderJs(templateNamed, jsDataConsumer));
+        //        assertEquals("js should match", expected, renderJs(templateNamed, jsDataConsumer));
     }
 
     private Map<String, Object> getTofuData(final Consumer<Map<String, Object>> tofuDataConsumer) {
