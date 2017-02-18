@@ -26,8 +26,5 @@ public class SoyFunctionsModule extends AbstractModule {
         pluginBinder.addBinding().to(StyleSoyFunction.class);
         pluginBinder.addBinding().to(ScriptSoyFunction.class);
         pluginBinder.addBinding().to(HtmlSoyFunction.class);
-
     }
-
-
 }
