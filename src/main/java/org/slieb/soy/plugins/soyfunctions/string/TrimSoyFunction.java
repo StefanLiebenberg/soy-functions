@@ -7,6 +7,7 @@ import com.google.template.soy.jssrc.restricted.JsExpr;
 import com.google.template.soy.jssrc.restricted.SoyLibraryAssistedJsSrcFunction;
 import com.google.template.soy.shared.restricted.SoyPureFunction;
 import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyPureFunction;
+import org.slieb.soy.plugins.soyfunctions.utils.Expressions;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class TrimSoyFunction extends AbstractSoyPureFunction implements SoyLibra
 
     @Override
     public JsExpr computeForJsSrc(final List<JsExpr> list) {
-        return callFunction("goog.string.trim", list.get(0));
+        return callFunction("goog.string.trim", Expressions.asString(list.get(0)));
     }
 
     @Override
@@ -35,6 +36,6 @@ public class TrimSoyFunction extends AbstractSoyPureFunction implements SoyLibra
 
     @Override
     public ImmutableSet<String> getRequiredJsLibNames() {
-        return REQUIRED_LIBS;
+        return ImmutableSet.of("goog.string");
     }
 }

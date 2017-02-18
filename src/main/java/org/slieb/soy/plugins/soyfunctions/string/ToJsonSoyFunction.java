@@ -13,12 +13,11 @@ import java.util.List;
 
 import static com.google.template.soy.data.SanitizedContent.ContentKind.JS;
 import static com.google.template.soy.jssrc.restricted.JsExprUtils.maybeWrapAsSanitizedContent;
-import static java.lang.Integer.MAX_VALUE;
 import static java.util.Collections.singleton;
+import static org.slieb.soy.plugins.soyfunctions.utils.Expressions.callFunction;
 
+@SuppressWarnings("WeakerAccess")
 public class ToJsonSoyFunction extends AbstractSanitizedSoyFunction implements SoyLibraryAssistedJsSrcFunction {
-
-    private static final String JSON_STRINGIFY = "goog.json.serialize(%s)";
 
     private final SoyJsonUtils soyJsonUtil;
 
@@ -30,9 +29,7 @@ public class ToJsonSoyFunction extends AbstractSanitizedSoyFunction implements S
 
     @Override
     public JsExpr computeForJsSrc(final List<JsExpr> args) {
-        final JsExpr jsExpr = args.get(0);
-        final JsExpr jsonExpr = new JsExpr(String.format(JSON_STRINGIFY, jsExpr.getText()), MAX_VALUE);
-        return maybeWrapAsSanitizedContent(JS, jsonExpr);
+        return maybeWrapAsSanitizedContent(JS, callFunction("goog.json.serialize", args.get(0)));
     }
 
     @Override

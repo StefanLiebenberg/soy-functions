@@ -109,6 +109,16 @@ public class Expressions {
     }
 
     /**
+     * Wraps value in {@code String(value)} call.
+     *
+     * @param value Some expression to wrap as string.
+     * @return A {@code String(...)} wrapped expression.
+     */
+    public static JsExpr asNumber(final JsExpr value) {
+        return callFunction("Number", value);
+    }
+
+    /**
      * @param reference    The object to get the property from
      * @param propertyName The property name
      * @return A reference to the property on the object.

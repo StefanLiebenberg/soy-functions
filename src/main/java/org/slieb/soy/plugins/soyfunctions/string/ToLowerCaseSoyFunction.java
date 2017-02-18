@@ -8,11 +8,11 @@ import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyPureFunction;
 
 import java.util.List;
 
-import static com.google.template.soy.data.SanitizedContent.ContentKind.TEXT;
-import static com.google.template.soy.jssrc.restricted.JsExprUtils.maybeWrapAsSanitizedContent;
-import static java.lang.Integer.MAX_VALUE;
 import static java.util.Collections.singleton;
+import static org.slieb.soy.plugins.soyfunctions.utils.Expressions.asString;
+import static org.slieb.soy.plugins.soyfunctions.utils.Expressions.callOn;
 
+@SuppressWarnings("WeakerAccess")
 @SoyPureFunction
 public class ToLowerCaseSoyFunction extends AbstractSoyPureFunction {
 
@@ -22,14 +22,11 @@ public class ToLowerCaseSoyFunction extends AbstractSoyPureFunction {
 
     @Override
     public JsExpr computeForJsSrc(final List<JsExpr> args) {
-        final JsExpr jsExpr = args.get(0);
-        final JsExpr lowerCaseExpr = new JsExpr(jsExpr.getText() + ".toLowerCase()", MAX_VALUE);
-        return maybeWrapAsSanitizedContent(TEXT, lowerCaseExpr);
+        return callOn(asString(args.get(0)), "toLowerCase");
     }
 
     @Override
     public StringData computeForJava(final List<SoyValue> args) {
-        final SoyValue soyValue = args.get(0);
-        return StringData.forValue(soyValue.stringValue().toLowerCase());
+        return StringData.forValue(args.get(0).coerceToString().toLowerCase());
     }
 }
