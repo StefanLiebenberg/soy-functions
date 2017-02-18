@@ -11,8 +11,8 @@ import org.slieb.soy.plugins.soyfunctions.internal.AbstractSanitizedSoyFunction;
 
 import java.util.List;
 
-import static java.lang.Integer.MAX_VALUE;
 import static java.util.Collections.singleton;
+import static org.slieb.soy.plugins.soyfunctions.utils.Expressions.callFunction;
 
 public class ToSafeUrlSoyFunction extends AbstractSanitizedSoyFunction implements SoyLibraryAssistedJsSrcFunction {
 
@@ -22,7 +22,7 @@ public class ToSafeUrlSoyFunction extends AbstractSanitizedSoyFunction implement
 
     @Override
     public JsExpr computeForJsSrc(final List<JsExpr> args) {
-        return new JsExpr("goog.html.SafeUrl.sanitize(" + args.get(0).getText() + ")", MAX_VALUE);
+        return callFunction("goog.html.SafeUrl.sanitize", args.get(0));
     }
 
     @Override
@@ -35,7 +35,7 @@ public class ToSafeUrlSoyFunction extends AbstractSanitizedSoyFunction implement
                     return (SanitizedContent) soyValue;
             }
         }
-        return SanitizedContents.fromSafeUrl(SafeUrls.sanitize(soyValue.coerceToString()));
+        return SanitizedContents.fromSafeUrl(SafeUrls.sanitize(soyValue.stringValue()));
     }
 
     @Override
