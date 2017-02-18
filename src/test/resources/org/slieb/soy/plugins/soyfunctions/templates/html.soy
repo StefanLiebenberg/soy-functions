@@ -1,0 +1,17 @@
+{namespace templates.html}
+
+
+/**
+ * @param Url
+ */
+{template .script}
+ {importScript($Url)}
+{/template}
+
+/**
+ * @param Url
+ * @param Options
+ */
+{template .scriptWithOptions}
+ {importScript($Url, $Options)}
+{/template}
