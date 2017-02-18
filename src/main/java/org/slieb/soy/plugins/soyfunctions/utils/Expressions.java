@@ -32,7 +32,7 @@ public class Expressions {
     public static JsExpr asLiteral(final String value) {
         return expression(String.format("\"%s\"", value));
     }
-    
+
     /**
      * Join an array of {@link JsExpr} together with a separator.
      *
@@ -106,5 +106,14 @@ public class Expressions {
      */
     public static JsExpr asString(final JsExpr value) {
         return callFunction("String", value);
+    }
+
+    /**
+     * @param reference    The object to get the property from
+     * @param propertyName The property name
+     * @return A reference to the property on the object.
+     */
+    public static JsExpr getProperty(final JsExpr reference, final String propertyName) {
+        return expression(reference.getText() + "." + propertyName);
     }
 }

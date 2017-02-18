@@ -9,7 +9,10 @@ import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyPureFunction;
 import java.util.List;
 
 import static java.util.Collections.singleton;
+import static org.slieb.soy.plugins.soyfunctions.utils.Expressions.asString;
+import static org.slieb.soy.plugins.soyfunctions.utils.Expressions.getProperty;
 
+@SuppressWarnings("WeakerAccess")
 @SoyPureFunction
 public class StringLengthSoyFunction extends AbstractSoyPureFunction {
 
@@ -19,14 +22,12 @@ public class StringLengthSoyFunction extends AbstractSoyPureFunction {
 
     @Override
     public JsExpr computeForJsSrc(final List<JsExpr> args) {
-        final JsExpr stringExpr = args.get(0);
-        return new JsExpr("(" + stringExpr.getText() + ").length", Integer.MAX_VALUE);
+        return getProperty(asString(args.get(0)), "length");
     }
 
     @Override
     public IntegerData computeForJava(final List<SoyValue> args) {
-        final SoyValue stringArg = args.get(0);
-        final String stringValue = stringArg.coerceToString();
+        final String stringValue = args.get(0).coerceToString();
         return IntegerData.forValue(stringValue.length());
     }
 }
