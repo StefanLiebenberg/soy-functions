@@ -6,28 +6,23 @@ import com.google.template.soy.jssrc.restricted.JsExpr;
 import com.google.template.soy.shared.restricted.SoyPureFunction;
 import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyPureFunction;
 
-import java.util.Collections;
 import java.util.List;
 
-import static com.google.template.soy.data.SanitizedContent.ContentKind.TEXT;
-import static com.google.template.soy.jssrc.restricted.JsExprUtils.maybeWrapAsSanitizedContent;
-import static java.lang.Integer.MAX_VALUE;
+import static java.util.Collections.singleton;
+import static org.slieb.soy.plugins.soyfunctions.utils.Expressions.asString;
+import static org.slieb.soy.plugins.soyfunctions.utils.Expressions.callOn;
 
+@SuppressWarnings("WeakerAccess")
 @SoyPureFunction
 public class SubstringSoyFunction extends AbstractSoyPureFunction {
 
-    private static final String SUBSTRING = "%s.substring(%s, %s)";
-
     public SubstringSoyFunction() {
-        super("substring", Collections.singleton(3));
+        super("substring", singleton(3));
     }
 
     @Override
     public JsExpr computeForJsSrc(final List<JsExpr> list) {
-        final String stringValue = list.get(0).getText();
-        final String from = list.get(1).getText();
-        final String to = list.get(2).getText();
-        return maybeWrapAsSanitizedContent(TEXT, new JsExpr(String.format(SUBSTRING, stringValue, from, to), MAX_VALUE));
+        return callOn(asString(list.get(0)), "substring", list.get(1), list.get(2));
     }
 
     @Override
