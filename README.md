@@ -11,6 +11,8 @@ To include it into your project, use the dependency:
 </dependency>
 ```
 
+[More Info Here](https://stefanliebenberg.github.io/soy-functions/dependency-info.html)
+
 And then add the `SoyFunctionsModule` to your Guice injector.
 
 
