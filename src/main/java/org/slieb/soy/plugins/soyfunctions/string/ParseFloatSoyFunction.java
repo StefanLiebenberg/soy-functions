@@ -10,6 +10,7 @@ import java.util.List;
 
 import static java.util.Collections.singleton;
 
+@SuppressWarnings("WeakerAccess")
 @SoyPureFunction
 public class ParseFloatSoyFunction extends AbstractSoyPureFunction {
 

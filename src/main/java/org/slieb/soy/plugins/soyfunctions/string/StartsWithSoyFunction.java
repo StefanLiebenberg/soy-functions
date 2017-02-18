@@ -8,28 +8,27 @@ import com.google.template.soy.jssrc.restricted.SoyLibraryAssistedJsSrcFunction;
 import com.google.template.soy.shared.restricted.SoyPureFunction;
 import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyPureFunction;
 
-import java.util.Collections;
 import java.util.List;
 
+import static java.util.Collections.singleton;
+import static org.slieb.soy.plugins.soyfunctions.utils.Expressions.callFunction;
+
+@SuppressWarnings("WeakerAccess")
 @SoyPureFunction
 public class StartsWithSoyFunction extends AbstractSoyPureFunction implements SoyLibraryAssistedJsSrcFunction {
 
-    private static final ImmutableSet<String> REQUIRED_LIBS = ImmutableSet.of("goog.string");
-
     public StartsWithSoyFunction() {
-        super("startsWith", Collections.singleton(2));
+        super("startsWith", singleton(2));
     }
 
     @Override
     public ImmutableSet<String> getRequiredJsLibNames() {
-        return REQUIRED_LIBS;
+        return ImmutableSet.of("goog.string");
     }
 
     @Override
     public JsExpr computeForJsSrc(final List<JsExpr> list) {
-        final String str = list.get(0).getText();
-        final String prefix = list.get(1).getText();
-        return new JsExpr(String.format("goog.string.startsWith(%s, %s)", str, prefix), Integer.MAX_VALUE);
+        return callFunction("goog.string.startsWith", list.get(0), list.get(1));
     }
 
     @Override
