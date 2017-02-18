@@ -7,42 +7,43 @@ import com.google.template.soy.jssrc.restricted.JsExpr;
 import com.google.template.soy.shared.restricted.SoyPureFunction;
 import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyPureFunction;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import static com.google.template.soy.data.SanitizedContent.ContentKind.TEXT;
-import static com.google.template.soy.jssrc.restricted.JsExprUtils.maybeWrapAsSanitizedContent;
-import static java.lang.Integer.MAX_VALUE;
+import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Collections.singleton;
+import static org.slieb.soy.plugins.soyfunctions.utils.Expressions.*;
 
+@SuppressWarnings("WeakerAccess")
 @SoyPureFunction
 public class JoinSoyFunction extends AbstractSoyPureFunction {
 
-    private static final String JOIN = "%s.join(%s)";
-
     public JoinSoyFunction() {
-        super("join", Collections.singleton(2));
+        super("join", singleton(2));
     }
 
     @Override
     public JsExpr computeForJsSrc(final List<JsExpr> list) {
-        final JsExpr jsExpr = list.get(0);
-        final JsExpr separator = list.get(1);
-        return maybeWrapAsSanitizedContent(TEXT, new JsExpr(String.format(JOIN, jsExpr.getText(), separator.getText()), MAX_VALUE));
+        final JsExpr array = list.get(0);
+        final JsExpr assertion = callFunction("goog.asserts.assert", callFunction("goog.isArray", array));
+        final JsExpr join = callOn(wrap(array), "join", argStream(list, 1).toArray(JsExpr[]::new));
+        return parenthesizedList(assertion, join);
     }
 
     @Override
     public StringData computeForJava(final List<SoyValue> list) {
-        final SoyValue strings = list.get(0);
-        final SoyValue separator = list.get(1);
-        if (strings instanceof SoyList) {
-            final SoyList stringsList = (SoyList) strings;
-            return StringData.forValue(stringsList.asResolvedJavaList()
-                                               .stream()
-                                               .map(SoyValue::stringValue)
-                                               .collect(Collectors.joining(separator.stringValue())));
-        } else {
-            throw new RuntimeException("not a soylist");
-        }
+        return StringData.forValue(stringStream(list.get(0)).collect(getCollector(list)));
+    }
+
+    private Stream<String> stringStream(final SoyValue strings) {
+        checkArgument(strings instanceof SoyList);
+        return SoyList.class.cast(strings).asResolvedJavaList().stream().map(SoyValue::stringValue);
+    }
+
+    private Collector<CharSequence, ?, String> getCollector(final List<SoyValue> list) {
+        return getOptional(list, 1).map(SoyValue::coerceToString).<Collector<CharSequence, ?, String>>map(Collectors::joining)
+                .orElseGet(Collectors::joining);
     }
 }

@@ -7,19 +7,16 @@ import com.google.template.soy.jssrc.restricted.JsExpr;
 import com.google.template.soy.jssrc.restricted.SoyLibraryAssistedJsSrcFunction;
 import com.google.template.soy.shared.restricted.SoyPureFunction;
 import org.slieb.soy.plugins.soyfunctions.internal.AbstractSoyPureFunction;
+import org.slieb.soy.plugins.soyfunctions.utils.Expressions;
 
 import java.util.List;
 
-import static com.google.template.soy.data.SanitizedContent.ContentKind.TEXT;
-import static com.google.template.soy.jssrc.restricted.JsExprUtils.maybeWrapAsSanitizedContent;
-import static java.lang.Integer.MAX_VALUE;
 import static java.util.Collections.singleton;
 
+@SuppressWarnings("WeakerAccess")
 @SoyPureFunction
 public class CapitalizeSoyFunction extends AbstractSoyPureFunction
         implements SoyLibraryAssistedJsSrcFunction {
-
-    private static final String CAPITALIZE = "goog.string.capitalize(%s)";
 
     public CapitalizeSoyFunction() {
         super("capitalize", singleton(1));
@@ -27,8 +24,7 @@ public class CapitalizeSoyFunction extends AbstractSoyPureFunction
 
     @Override
     public JsExpr computeForJsSrc(final List<JsExpr> list) {
-        final String expression = String.format(CAPITALIZE, list.get(0).getText());
-        return maybeWrapAsSanitizedContent(TEXT, new JsExpr(expression, MAX_VALUE));
+        return Expressions.callFunction("goog.string.capitalize", list.get(0));
     }
 
     @Override

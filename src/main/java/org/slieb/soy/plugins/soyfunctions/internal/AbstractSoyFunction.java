@@ -11,12 +11,13 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static java.util.Collections.unmodifiableSet;
 
 public abstract class AbstractSoyFunction<R extends SoyValue> implements SoyFunction, SoyJavaFunction, SoyJsSrcFunction {
 
-    protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     private final String name;
 
@@ -32,6 +33,14 @@ public abstract class AbstractSoyFunction<R extends SoyValue> implements SoyFunc
             return Optional.of(t.get(argNr));
         } else {
             return Optional.empty();
+        }
+    }
+
+    protected <T> Stream<T> argStream(final List<T> list, final int i) {
+        if (list.size() > i) {
+            return Stream.of(list.get(i));
+        } else {
+            return Stream.empty();
         }
     }
 
