@@ -25,7 +25,6 @@ public class ToTrustedUriSoyFunction extends AbstractSanitizedSoyFunction {
 
     @Override
     public SanitizedContent computeForJava(final List<SoyValue> args) {
-        final SoyValue soyValue = args.get(0);
-        return ordainAsSafe(soyValue.coerceToString(), TRUSTED_RESOURCE_URI);
+        return ordainAsSafe(args.get(0).stringValue(), TRUSTED_RESOURCE_URI);
     }
 }
