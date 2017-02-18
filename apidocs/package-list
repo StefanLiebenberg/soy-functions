@@ -1,7 +1,10 @@
 org.slieb.soy.plugins.soyfunctions
-org.slieb.soy.plugins.soyfunctions.converters
-org.slieb.soy.plugins.soyfunctions.extra
+org.slieb.soy.plugins.soyfunctions.date
+org.slieb.soy.plugins.soyfunctions.date.functions
+org.slieb.soy.plugins.soyfunctions.date.models
+org.slieb.soy.plugins.soyfunctions.date.utils
 org.slieb.soy.plugins.soyfunctions.html
 org.slieb.soy.plugins.soyfunctions.internal
-org.slieb.soy.plugins.soyfunctions.models
 org.slieb.soy.plugins.soyfunctions.string
+org.slieb.soy.plugins.soyfunctions.urls
+org.slieb.soy.plugins.soyfunctions.utils
