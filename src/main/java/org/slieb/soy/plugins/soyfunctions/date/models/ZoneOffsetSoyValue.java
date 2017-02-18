@@ -13,21 +13,6 @@ public class ZoneOffsetSoyValue extends SoyAbstractValue {
     public ZoneOffsetSoyValue(final ZoneOffset zoneOffset) {this.zoneOffset = zoneOffset;}
 
     @Override
-    public long longValue() {
-        return zoneOffset.getTotalSeconds();
-    }
-
-    @Override
-    public double numberValue() {
-        return zoneOffset.getTotalSeconds();
-    }
-
-    @Override
-    public int integerValue() {
-        return zoneOffset.getTotalSeconds();
-    }
-
-    @Override
     public boolean coerceToBoolean() {
         return true;
     }
@@ -48,6 +33,21 @@ public class ZoneOffsetSoyValue extends SoyAbstractValue {
         if (o == null || getClass() != o.getClass()) { return false; }
         final ZoneOffsetSoyValue that = (ZoneOffsetSoyValue) o;
         return Objects.equals(zoneOffset, that.zoneOffset);
+    }
+
+    @Override
+    public int integerValue() {
+        return zoneOffset.getTotalSeconds();
+    }
+
+    @Override
+    public long longValue() {
+        return zoneOffset.getTotalSeconds();
+    }
+
+    @Override
+    public double numberValue() {
+        return zoneOffset.getTotalSeconds();
     }
 
     @Override

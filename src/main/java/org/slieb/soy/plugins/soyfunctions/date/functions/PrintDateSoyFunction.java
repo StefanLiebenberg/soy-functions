@@ -27,8 +27,6 @@ import static java.lang.Integer.MAX_VALUE;
 
 public class PrintDateSoyFunction extends AbstractSanitizedSoyFunction implements SoyLibraryAssistedJsSrcFunction {
 
-    private final Provider<ZoneOffset> defaultZoneProvider;
-
     private static final String FORMAT_DATETIME = "new goog.i18n.DateTimeFormat(%s).format(%s, %s)";
 
     private static final String FORMAT_TIMEZONE = "goog.i18n.TimeZone.createTimeZone(%s)";
@@ -42,6 +40,8 @@ public class PrintDateSoyFunction extends AbstractSanitizedSoyFunction implement
     private static final String FUNCTION_INVOKE = "(function(time){ return goog.isDateLike(time) ? time : goog.isString(time) ? goog.date.fromIsoString(time)" +
             " || goog.date.DateTime.fromRfc822String(time) || goog.date.DateTime.fromTimestamp(parseInt(time, 10)) : new goog.date.DateTime" +
             "(new Date(time)); })(%s)";
+
+    private final Provider<ZoneOffset> defaultZoneProvider;
 
     @Inject
     public PrintDateSoyFunction(@Named(SoyDateFunctionsModule.DEFAULT_OFFSET) final Provider<ZoneOffset> defaultZoneProvider) {

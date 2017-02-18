@@ -9,8 +9,8 @@ import java.util.List;
 
 import static java.util.Collections.singleton;
 import static org.slieb.soy.plugins.soyfunctions.date.utils.JsExprDateUtils.compareDatesExpr;
-import static org.slieb.soy.plugins.soyfunctions.utils.Expressions.parenthesizedList;
 import static org.slieb.soy.plugins.soyfunctions.utils.Expressions.expression;
+import static org.slieb.soy.plugins.soyfunctions.utils.Expressions.parenthesizedList;
 
 public class IsAfterSoyFunction extends AbstractSoyDateFunction<BooleanData> {
 

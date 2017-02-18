@@ -23,6 +23,10 @@ public class ToFixedSoyFunction extends AbstractSoyPureFunction {
         super("toFixed", singleton(2));
     }
 
+    private static String toFixed(final String n, final int digits) {
+        return new BigDecimal(n).setScale(digits, BigDecimal.ROUND_HALF_UP).toString();
+    }
+
     @Override
     public JsExpr computeForJsSrc(final List<JsExpr> list) {
         return callOn(asNumber(list.get(0)), "toFixed", list.get(1));
@@ -31,9 +35,5 @@ public class ToFixedSoyFunction extends AbstractSoyPureFunction {
     @Override
     public StringData computeForJava(final List<SoyValue> list) {
         return StringData.forValue(toFixed(list.get(0).coerceToString(), list.get(1).integerValue()));
-    }
-
-    private static String toFixed(final String n, final int digits) {
-        return new BigDecimal(n).setScale(digits, BigDecimal.ROUND_HALF_UP).toString();
     }
 }
