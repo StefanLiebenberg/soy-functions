@@ -5,7 +5,7 @@
     <groupId>org.slieb.soy.plugins</groupId>
     <artifactId>soy-functions</artifactId>
     <name>soy-functions</name>
-    <version>1.5</version>
+    <version>1.6-SNAPSHOT</version>
 
     <description>A collection of usefull soy plugin functions</description>
     <packaging>jar</packaging>
@@ -39,7 +39,7 @@
         <developerConnection>
             scm:git:git@github.com:StefanLiebenberg/soy-functions.git
         </developerConnection>
-        <tag>soy-functions-1.5</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <licenses>
