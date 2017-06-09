@@ -16,8 +16,9 @@ import static org.slieb.soy.plugins.soyfunctions.utils.Expressions.parseInt;
  * Note, this package cannot be marked as a {@link SoyPureFunction} as the resulting IntegerData really operates
  * on a long, and the pre-evaluation suite when the long has too many bits. In non-pre-evaluated situation, this
  * seems to be better.
+ * @deprecated seems to supplied now
  */
-@SuppressWarnings("WeakerAccess")
+@Deprecated
 public class ParseIntegerSoyFunction extends AbstractSoyFunction<IntegerData> {
 
     public static final int VALUE_ARG = 0;
@@ -27,7 +28,7 @@ public class ParseIntegerSoyFunction extends AbstractSoyFunction<IntegerData> {
     public static final int DEFAULT_RADIX = 10;
 
     public ParseIntegerSoyFunction() {
-        super("parseInt", newHashSet(1, 2));
+        super("parseInt_", newHashSet(1, 2));
     }
 
     @Override

@@ -10,12 +10,16 @@ import java.util.List;
 
 import static java.util.Collections.singleton;
 
+/**
+ * @deprecated Function seems to be supplied now.
+ */
 @SuppressWarnings("WeakerAccess")
 @SoyPureFunction
+@Deprecated
 public class ParseFloatSoyFunction extends AbstractSoyPureFunction {
 
     public ParseFloatSoyFunction() {
-        super("parseFloat", singleton(1));
+        super("parseFloat_", singleton(1));
     }
 
     @Override

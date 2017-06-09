@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.slieb.soy.plugins</groupId>
@@ -18,6 +19,7 @@
         <github.global.server>github</github.global.server>
         <dep.maven>3.3.1</dep.maven>
         <dep.junit>4.12</dep.junit>
+        <dep.soy>2017-04-23</dep.soy>
     </properties>
 
     <prerequisites>
@@ -81,13 +83,67 @@
         <dependency>
             <groupId>com.google.template</groupId>
             <artifactId>soy</artifactId>
-            <version>2016-08-25</version>
+            <version>${dep.soy}</version>
         </dependency>
         <dependency>
             <groupId>com.google.template</groupId>
             <artifactId>soy</artifactId>
-            <version>2016-08-25</version>
+            <version>${dep.soy}</version>
             <classifier>soyutils_usegoog</classifier>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jsr305</artifactId>
+                    <groupId>com.google.code.findbugs</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>gson</artifactId>
+                    <groupId>com.google.code.gson</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>guice-assistedinject</artifactId>
+                    <groupId>com.google.inject.extensions</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>asm-commons</artifactId>
+                    <groupId>org.ow2.asm</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>types</artifactId>
+                    <groupId>com.google.common.html.types</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>asm-util</artifactId>
+                    <groupId>org.ow2.asm</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>json</artifactId>
+                    <groupId>org.json</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>args4j</artifactId>
+                    <groupId>args4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>icu4j</artifactId>
+                    <groupId>com.ibm.icu</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>asm-analysis</artifactId>
+                    <groupId>org.ow2.asm</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>guava</artifactId>
+                    <groupId>com.google.guava</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>asm</artifactId>
+                    <groupId>org.ow2.asm</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>protobuf-java</artifactId>
+                    <groupId>com.google.protobuf</groupId>
+                </exclusion>
+            </exclusions>
             <type>js</type>
             <scope>test</scope>
         </dependency>
@@ -143,7 +199,7 @@
                         <artifactItem>
                             <groupId>com.google.template</groupId>
                             <artifactId>soy</artifactId>
-                            <version>2016-08-25</version>
+                            <version>${dep.soy}</version>
                             <classifier>soyutils_usegoog</classifier>
                             <type>js</type>
                             <outputDirectory>${project.build.testOutputDirectory}</outputDirectory>

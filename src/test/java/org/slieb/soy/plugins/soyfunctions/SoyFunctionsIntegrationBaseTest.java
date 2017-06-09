@@ -1,5 +1,6 @@
 package org.slieb.soy.plugins.soyfunctions;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -12,11 +13,20 @@ import com.google.template.soy.jssrc.SoyJsSrcOptions;
 import com.google.template.soy.msgs.SoyMsgBundle;
 import com.google.template.soy.tofu.SoyTofu;
 import org.apache.commons.io.IOUtils;
-import org.mozilla.javascript.*;
+import org.mozilla.javascript.BaseFunction;
+import org.mozilla.javascript.Callable;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.NativeObject;
+import org.mozilla.javascript.Scriptable;
 import org.slieb.runtimes.rhino.EnvJSRuntime;
 import org.slieb.runtimes.rhino.RhinoRuntime;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Writer;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.Map;
@@ -95,7 +105,7 @@ public class SoyFunctionsIntegrationBaseTest {
         envJSRuntime.initialize();
         envJSRuntime.putJavaObject("CLOSURE_IMPORT_SCRIPT", new Importer());
         loadGoodResource(envJSRuntime, "/closure/goog/base.js");
-        loadResource(envJSRuntime, "/soy-2016-08-25-soyutils_usegoog.js");
+        loadResource(envJSRuntime, "/soy-2017-04-23-soyutils_usegoog.js");
 
         SoyJsSrcOptions jsSrcOptions = new SoyJsSrcOptions();
         jsSrcOptions.setShouldProvideRequireJsFunctions(true);
@@ -124,8 +134,11 @@ public class SoyFunctionsIntegrationBaseTest {
     }
 
     private Object loadResource(final EnvJSRuntime envJSRuntime, final String path) throws IOException {
-        String command = IOUtils.toString(getClass().getResourceAsStream(path));
-        return envJSRuntime.execute(command, path);
+        try (final InputStream resourceAsStream = getClass().getResourceAsStream(path)) {
+            Preconditions.checkNotNull(resourceAsStream, "No resource found at " + path);
+            String command = IOUtils.toString(resourceAsStream);
+            return envJSRuntime.execute(command, path);
+        }
     }
 
     private Object toNative(Object obj) {

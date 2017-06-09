@@ -2,19 +2,21 @@ package org.slieb.soy.plugins.soyfunctions.internal;
 
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
-import com.google.template.soy.data.SoyValueHelper;
+import com.google.template.soy.data.SoyValueConverter;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static java.util.Collections.*;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.emptySet;
+import static java.util.Collections.singleton;
+import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 
 public class SoyJsonUtilsTest {
-
-    private SoyValueHelper valueHelper = new SoyValueHelper();
 
     private Gson gson = new Gson();
 
@@ -22,7 +24,7 @@ public class SoyJsonUtilsTest {
 
     @Before
     public void setUp() throws Exception {
-        soyJsonUtils = new SoyJsonUtils(gson, valueHelper);
+        soyJsonUtils = new SoyJsonUtils(gson, SoyValueConverter.UNCUSTOMIZED_INSTANCE);
     }
 
     private String toJsonString(Object object) {

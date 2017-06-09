@@ -3,7 +3,11 @@ package org.slieb.soy.plugins.soyfunctions.internal;
 import com.google.common.html.types.SafeScripts;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
-import com.google.template.soy.data.*;
+import com.google.template.soy.data.SanitizedContent;
+import com.google.template.soy.data.SoyDict;
+import com.google.template.soy.data.SoyList;
+import com.google.template.soy.data.SoyValue;
+import com.google.template.soy.data.SoyValueConverter;
 import com.google.template.soy.data.restricted.BooleanData;
 import com.google.template.soy.data.restricted.NumberData;
 import com.google.template.soy.data.restricted.StringData;
@@ -18,10 +22,10 @@ public class SoyJsonUtils {
 
     private final Gson gson;
 
-    private final SoyValueHelper helper;
+    private final SoyValueConverter helper;
 
     @Inject
-    public SoyJsonUtils(final Gson gson, final SoyValueHelper helper) {
+    public SoyJsonUtils(final Gson gson, final SoyValueConverter helper) {
         this.gson = gson;
         this.helper = helper;
     }
